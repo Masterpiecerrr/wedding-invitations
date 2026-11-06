@@ -212,7 +212,8 @@ export function weddingPlugin(): Plugin {
       await ensure();
       const { 新郎, 新娘 } = 配置.新人;
       const d = 推算日期(配置);
-      const site = 配置.分享.网址.replace(/\/+$/, '');
+      // 环境变量 SITE_URL 优先（GitHub Pages 用），否则用配置里的分享网址
+      const site = (process.env.SITE_URL || 配置.分享.网址).replace(/\/+$/, '');
       const title = 配置.分享.标题 || `${新郎} & ${新娘} · 婚礼请柬`;
       const desc = 配置.分享.描述 || `${d.公历} ${d.星期}，${配置.婚礼.酒店}${配置.婚礼.厅}。诚邀您见证我们的婚礼。`;
       const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
