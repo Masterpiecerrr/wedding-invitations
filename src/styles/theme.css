@@ -1,0 +1,154 @@
+/* 纯视觉覆盖：保留组件的状态选择器、动画时序与交互命中区域。 */
+
+/* 双扇门沿用原有开启动效，改为细金线纸质喜帖。 */
+.doors.doors { width: var(--col); left: 50%; right: auto; transform: translateX(-50%); }
+.doors .door { background-color: var(--red); background-image: radial-gradient(ellipse at 50% 35%, #a735354d, transparent 65%), repeating-linear-gradient(20deg, #ffffff03 0 1px, transparent 1px 5px); box-shadow: none; }
+.doors .door::before { content: ''; position: absolute; top: 25px; bottom: 25px; border: 1px solid #dec08a80; outline: 1px solid #dec08a30; outline-offset: 7px; pointer-events: none; }
+.doors .door-l::before { left: 25px; right: 0; border-right: 0; }
+.doors .door-r::before { right: 25px; left: 0; border-left: 0; }
+.doors .door-l::after, .doors .door-r::after { background: #dec08a12; }
+.doors .studs { inset: 0; opacity: 1; background: none; }
+.doors .door-copy { padding: 54px 32px; gap: 0; }
+.doors .door-houses { order: 1; margin-top: 36px; padding: 0; background: none; box-shadow: none; font: 400 clamp(26px, 7vw, 36px)/1.6 var(--song); letter-spacing: .2em; }
+.doors .door-date { order: 2; background: none; margin-top: 14px; padding: 0; font-size: 13px; letter-spacing: .18em; }
+.doors .knocker { order: 0; flex: none; width: min(68vw, 330px); height: auto; aspect-ratio: 1; margin-top: 0; }
+.doors .knocker-face { inset: 20px; background: repeating-linear-gradient(45deg, #dec08a05 0 1px, transparent 1px 8px); box-shadow: none; border: 1px solid #dec08a80; outline: 1px dashed #dec08a60; outline-offset: -10px; }
+.doors .knocker-ring { inset: 5px; border: 1px solid #dec08a80; animation: none; }
+.doors .knocker-xi { width: 58%; color: var(--gold-light); filter: drop-shadow(0 2px 1px #67191f60); }
+.doors .knocker-face b { color: var(--gold-light); font-size: clamp(58px, 19vw, 100px); }
+.doors .door-hint { order: 3; margin-top: 40px; padding: 12px 24px; border: 1px solid #dec08a80; background: none; font-size: 13px; letter-spacing: .24em; max-width: 100%; }
+
+/* 首屏：圆形主视觉、双线金框、舒展的题字。 */
+.page .hero { min-height: 850px; padding: 54px 36px 35px; }
+.page .hero::before, .page .ending::before { content: ''; position: absolute; inset: 25px; border: 1px solid #dec08a70; outline: 1px solid #dec08a30; outline-offset: 7px; pointer-events: none; }
+.page .hero-houses { font: 400 17px/1.6 var(--song); letter-spacing: .35em; }
+.page .moon { width: min(62vw, 290px); margin-top: 42px; }
+.page .moon-photo { box-shadow: 0 0 0 9px var(--red), 0 0 0 10px #dec08a90, 0 0 0 21px var(--red), 0 0 0 22px #dec08a70; }
+.page .moon-photo .pf-empty { background: radial-gradient(circle, #a7353550, transparent 70%), var(--red); color: var(--gold-light); }
+.page .moon-xi { width: 39px; padding: 9px; bottom: -30px; box-shadow: 0 0 0 1px #dec08a90; }
+.page .hero-lead { margin-top: 48px; font-size: 12px; letter-spacing: .35em; }
+.page .hero-names { margin-top: 17px; font: 400 clamp(29px, 8vw, 39px)/1.6 var(--song); gap: 6px 18px; color: var(--gold-light); }
+.page .hero-names i { font-size: 22px; color: var(--gold-light); }
+.page .hero-quote { margin-top: 16px; font: 400 17px/1.8 var(--brush); letter-spacing: .18em; }
+.page .hero-date { margin-top: 24px; font-size: 15px; color: var(--gold-light); }
+.page .hero-date small { font-size: 12px; }
+.page .countdown { margin-top: 24px; padding: 12px 8px; border-color: #dec08a40; }
+.page .countdown b { color: var(--gold-light); font: 23px/1.5 Georgia, serif; }
+.page .countdown small { font-size: 10px; }
+.page .cd-label { font-size: 11px; }
+.page .scroll-cue { padding-top: 30px; }
+
+/* 婚书与照片：宣纸底、细边框，保留竖排正文和照片位置标注。 */
+.page .letter { padding: 38px 24px 30px; background: #fff9ee; box-shadow: 0 0 0 1px #b6976660, 0 12px 26px #533b3008; }
+.page .letter::before { inset: 9px; border: 1px solid #b6976670; outline: none; opacity: 1; }
+.page .letter-title { font-size: 38px; color: var(--red); }
+.page .letter-body { color: var(--ink); background-image: linear-gradient(to left, #b6976645 1px, transparent 1px); border-color: #b6976645; line-height: 2.1; }
+.page .letter-sign { border-top: 1px solid #b6976640; }
+.page .letter-sign dd { font-size: 24px; }
+.page .letter-date { font-size: 12px; letter-spacing: .12em; }
+.page .seal { background: var(--red); opacity: .8; transform: rotate(-4deg); box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px var(--red); }
+.page .letter-pic, .page .ch-pic, .page .shot, .page .venue-pic { box-shadow: 0 0 0 6px var(--paper), 0 0 0 7px #b6976655, 0 12px 24px #533b300c; }
+.page .pf-empty { color: #9a7954; background: radial-gradient(ellipse at 45% 30%, #fff9ed90, transparent 70%), repeating-linear-gradient(45deg, #8b4b1903 0 1px, transparent 1px 4px), var(--paper-deep); }
+.page .pf-tag { background: #533b30b3; border: 1px solid #dec08a40; border-radius: 0; font-size: 10px; letter-spacing: .05em; }
+.page .ch-time { color: #967345; font-size: 12px; }
+.page .ch-title { font: 400 25px/1.6 var(--song); margin-top: 7px; }
+.page .ch-text { font-size: 14px; line-height: 2.1; color: var(--ink-soft); }
+.page .silk { width: 1px; background: #b6976680; box-shadow: none; }
+.page .chapter::before { border-width: 1px; }
+
+/* 保留问答翻牌与相册滑动，统一纸卡外观。 */
+.page .qa-grid { gap: 16px; }
+.page .front { background: var(--red); color: var(--gold-light); box-shadow: inset 0 0 0 7px var(--red), inset 0 0 0 8px #dec08a60; }
+.page .front i { background: none; color: var(--gold-light); border: 1px solid #dec08a70; border-radius: 0; }
+.page .front b { font: 400 17px/1.8 var(--song); }
+.page .back { background: #fff9ee; box-shadow: inset 0 0 0 1px #b6976670, 0 6px 16px #533b3008; }
+.page .back i { border-radius: 0; }
+.page .back b { font-size: 14px; }
+.page .gallery { padding-left: 0; padding-right: 0; }
+.page .pager { font-size: 12px; }
+.page .pager button { border-color: #b6976670; }
+
+/* 流程采用整段朱红，形成与浅色正文相间的节奏。 */
+.page .schedule { background: var(--red); color: var(--gold-light); outline: 1px solid #dec08a60; outline-offset: -12px; }
+.page .schedule::before { background: none; }
+.page .schedule .sec-title { color: var(--gold-light); font-size: 27px; }
+.page .schedule .sec-title::before, .page .schedule .sec-title::after { opacity: .65; }
+.page .steps time { color: var(--gold-light); font: 19px/1.7 Georgia, serif; }
+.page .steps b { color: var(--gold-light); font: 400 19px/1.7 var(--song); letter-spacing: .12em; }
+.page .steps small { color: #e5c99b; font-size: 12px; margin-top: 5px; }
+.page .steps li { padding-bottom: 32px; }
+.page .steps li:last-child { padding-bottom: 0; }
+.page .steps li::before { background: var(--gold-light); box-shadow: none; width: 6px; height: 6px; }
+.page .steps li:not(:last-child)::after { background: #dec08a55; }
+
+/* 日历、宴会地点与赴约卡片。 */
+.page .cal { padding: 26px 22px 22px; background: #fff9ee; box-shadow: 0 0 0 1px #b6976655; outline: 1px solid #b6976630; outline-offset: 5px; }
+.page .cal-head b { font: 400 28px/1.4 var(--song); }
+.page .cal-week, .page .cal-foot { border-color: #b6976640; }
+.page .cal-foot { font-size: 14px; }
+.page .cal-foot small { font-size: 12px; }
+.page .times dd { font: 28px/1.6 Georgia, serif; }
+.page .place { padding: 25px 15px; border-top: 1px solid #b6976640; border-bottom: 1px solid #b6976640; }
+.page .place h3 { font: 400 26px/1.7 var(--song); letter-spacing: .1em; }
+.page .hall { margin-top: 6px; font-size: 15px; }
+.page .addr { margin-top: 12px; font-size: 13px; line-height: 2; }
+.page .note { background: #b6976610; font-size: 12px; }
+.page .maps a { background: #fff9ee; border-color: #b6976655; font-size: 13px; }
+.page .rsvp-card { padding: 38px 20px; background: transparent; box-shadow: none; border: 1px solid #b6976655; outline: 1px solid #b6976630; outline-offset: 6px; }
+.page .rsvp-card .sec-title { font-size: 27px; gap: 8px; }
+.page .rsvp-card .sec-title::before, .page .rsvp-card .sec-title::after { width: 18px; }
+.page .rsvp-text { font-size: 14px; line-height: 2.1; color: var(--ink-soft); }
+.page .rsvp-btn { margin-top: 27px; width: min(100%, 280px); }
+.page .rsvp-due { font-size: 12px; }
+.page .ending { position: relative; padding: 64px 40px 55px; }
+.page .end-xi { width: 54px; }
+.page .end-big { font-size: 42px; letter-spacing: .2em; text-indent: .2em; }
+.page .end-text { font-size: 14px; line-height: 2.2; }
+.page .end-parents { border-color: #dec08a40; }
+.page .end-parents p { font: 400 18px/1.8 var(--song); }
+.page .end-parents span { font-size: 13px; }
+.page .end-sign { color: var(--gold-light); font-size: 11px; opacity: .8; }
+
+/* Teleport 弹窗与浮动按钮不在 .page 内。 */
+.music.music { background: var(--red-deep); border-color: #dec08a90; box-shadow: 0 3px 12px #533b3020, inset 0 0 0 4px var(--red-deep), inset 0 0 0 5px #dec08a30; }
+.dialog-overlay.dialog-overlay { background: #281713bb; backdrop-filter: blur(4px); }
+.save-dialog.save-dialog { border: 1px solid var(--gold); box-shadow: 0 25px 100px #0003; padding: 22px 20px; }
+.save-dialog .save-body img { box-shadow: 0 8px 20px #533b3020; }
+.save-dialog .save-hint { font-size: 12px; }
+.photo-lightbox.photo-lightbox { background: #291b19; }
+.photo-lightbox .photo-lightbox-close, .photo-lightbox .photo-lightbox-zoom button { border-color: #dec08a70; color: var(--gold-light); }
+.photo-lightbox figcaption, .photo-lightbox .photo-lightbox-zoom { color: var(--gold-light); }
+
+@media (min-width: 801px) {
+  body::before, body::after { content: ''; position: fixed; top: 29%; width: 1px; height: 220px; background: linear-gradient(transparent, #b6976670, transparent); pointer-events: none; }
+  body::before { left: calc(50% - 365px); }
+  body::after { right: calc(50% - 365px); top: 40%; }
+}
+@media (max-width: 560px) {
+  .doors .door-copy { padding: 40px 26px; }
+  .doors .door::before { top: 19px; bottom: 19px; }
+  .doors .door-l::before { left: 19px; }
+  .doors .door-r::before { right: 19px; }
+  .page .hero { min-height: 100svh; padding: 42px 28px 30px; }
+  .page .hero::before, .page .ending::before { inset: 19px; outline-offset: 6px; }
+  .page .hero-houses { font-size: 15px; }
+  .page .moon { margin-top: 38px; }
+  .page .ending { padding-left: 30px; padding-right: 30px; }
+}
+@media (max-width: 360px) {
+  .doors .door-houses { font-size: 25px; }
+  .page .hero-names { font-size: 28px; gap: 6px 10px; }
+  .page .countdown { gap: 3px; padding-left: 0; padding-right: 0; }
+  .page .cd-label { margin-right: 5px; }
+  .page .rsvp-card { padding-left: 12px; padding-right: 12px; }
+  .page .rsvp-card .sec-title { font-size: 24px; }
+  .page .letter { padding-left: 18px; padding-right: 18px; }
+  .page .letter-sign { column-gap: 16px; }
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  .doors .door-copy { padding: 26px; }
+  .doors .knocker { width: min(42vh, 220px); }
+  .doors .door-houses { margin-top: 14px; font-size: 23px; }
+  .doors .door-date { margin-top: 5px; font-size: 11px; }
+  .doors .door-hint { margin-top: 16px; padding: 8px 18px; }
+}
