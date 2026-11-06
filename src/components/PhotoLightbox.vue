@@ -125,13 +125,13 @@ onBeforeUnmount(() => {
 <template>
   <Teleport to="body">
     <Transition name="photo-lightbox">
-      <div v-if="modelValue !== null && photos[modelValue]" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="婚纱照预览" @click.self="close">
+      <div v-if="modelValue !== null && photos[modelValue]" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="照片大图" @click.self="close">
         <button ref="closeButton" class="photo-lightbox-close" type="button" aria-label="关闭照片预览" @click="close">×</button>
         <figure>
           <div class="photo-lightbox-stage" @touchstart="handleTouchStart" @touchmove.prevent="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="handleTouchEnd">
             <img ref="previewImage" :src="photos[modelValue].src" :alt="photos[modelValue].alt" :style="imageTransform" draggable="false" />
           </div>
-          <figcaption>{{ photos[modelValue].alt }} · 手机端支持双指缩放</figcaption>
+          <figcaption>{{ modelValue + 1 }} / {{ photos.length }}　双指可放大</figcaption>
         </figure>
         <div class="photo-lightbox-zoom" aria-label="照片缩放控制">
           <button type="button" :disabled="zoomScale <= 1" aria-label="缩小照片" @click="setZoom(zoomScale - 0.5)">−</button>

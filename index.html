@@ -2,22 +2,25 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="%BASE_URL%favicon.svg" />
-    <title>__INVITATION_TITLE__</title>
-    <meta name="description" content="__INVITATION_DESCRIPTION__" />
-    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#8e1a22" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>__TITLE__</title>
+    <meta name="description" content="__DESC__" />
+    <link rel="canonical" href="__SITE__/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="__INVITATION_TITLE__" />
-    <meta property="og:description" content="__INVITATION_SHARE_DESCRIPTION__" />
-    <meta property="og:url" content="%VITE_SITE_URL%/" />
-    <meta property="og:site_name" content="__INVITATION_SITE_NAME__" />
-    <meta property="og:image" content="%VITE_SITE_URL%/images/invitation/share-cover.png" />
-    <meta property="og:image:alt" content="__INVITATION_IMAGE_ALT__" />
-    <meta property="og:image:width" content="1254" />
-    <meta property="og:image:height" content="1254" />
+    <meta property="og:title" content="__TITLE__" />
+    <meta property="og:description" content="__DESC__" />
+    <meta property="og:url" content="__SITE__/" />
+    <meta property="og:image" content="__SITE__/share-cover.jpg" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="600" />
+    <meta itemprop="name" content="__TITLE__" />
+    <meta itemprop="image" content="__SITE__/share-cover.jpg" />
   </head>
   <body>
+    <!-- 微信抓取分享缩略图时会参考页面里的第一张大图 -->
+    <div style="display:none"><img src="/share-cover.jpg" alt="" /></div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

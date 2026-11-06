@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { wedding } from '@/data/wedding';
-import ArrowIcon from './ArrowIcon.vue';
-const query = encodeURIComponent(wedding.venue);
-const amap = `https://uri.amap.com/search?keyword=${query}&city=${encodeURIComponent(wedding.mapCity)}&src=wedding-invitation`;
-const baiduQuery = `query=${query}&region=${encodeURIComponent(wedding.mapRegion)}`;
-const baiduWeb = `https://api.map.baidu.com/place/search?${baiduQuery}&output=html&src=webapp.wedding.invitation`;
-const platform = /Android/i.test(navigator.userAgent) ? 'android' : (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ? 'ios' : 'web');
-const baidu = computed(() => platform === 'ios' ? `baidumap://map/place/search?${baiduQuery}&src=ios.wedding.invitation` : platform === 'android' ? `bdapp://map/place/search?${baiduQuery}&src=andr.wedding.invitation` : baiduWeb);
+import { ref } from 'vue';
+import { 配置 } from '@/lib/wedding';
+
+const open = ref(false);
+const kw = encodeURIComponent(配置.婚礼.导航关键词 || 配置.婚礼.酒店);
+const city = encodeURIComponent(配置.婚礼.城市);
+const maps = [
+  { name: '高德地图', href: `https://uri.amap.com/search?keyword=${kw}&city=${city}&callnative=1&src=wedding` },
+  { name: '百度地图', href: `https://api.map.baidu.com/place/search?query=${kw}&region=${city}&output=html&src=wedding` },
+  { name: '腾讯地图', href: `https://apis.map.qq.com/uri/v1/search?keyword=${kw}&region=${city}&referer=wedding` },
+  { name: '苹果地图', href: `https://maps.apple.com/?q=${kw}` },
+];
 </script>
 
 <template>
-  <div class="map-directions">
-    <a class="button button-line" :href="`${amap}&callnative=1`">查看地点 <span aria-hidden="true"><ArrowIcon /></span></a>
-    <details class="map-options"><summary><ArrowIcon direction="right" />选择其他地图 / 网页查看</summary><nav aria-label="选择婚礼地点地图">
-      <div class="map-option"><a :href="`${amap}&callnative=1`">高德地图 <span>默认</span></a><a :href="`${amap}&callnative=0`" target="_blank" rel="noreferrer" aria-label="高德地图网页版">网页版 <ArrowIcon /></a></div>
-      <div class="map-option"><a :href="baidu">百度地图 <ArrowIcon /></a><a :href="baiduWeb" target="_blank" rel="noreferrer" aria-label="百度地图网页版">网页版 <ArrowIcon /></a></div>
-      <div class="map-option"><a :href="`https://maps.apple.com/?q=${query}`">苹果地图 <ArrowIcon /></a></div>
-    </nav><p>手机可唤起已安装的地图；若未打开，请用网页版查看。</p></details>
-  </div>
+  <button class="btn" type="button" :aria-expanded="open" aria-controls="map-list" @click="open = !open">一键导航</button>
+  <nav v-show="open" id="map-list" class="maps" aria-label="选择地图">
+    <a v-for="m in maps" :key="m.name" :href="m.href" target="_blank" rel="noreferrer">{{ m.name }}</a>
+  </nav>
 </template>
+
+<style scoped>
+.maps { order: 3; flex-basis: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.maps a { padding: 10px; border: 1px solid #c39a5299; background: #fbf4e6; color: var(--red); font-size: 14px; letter-spacing: .1em; text-decoration: none; text-align: center; }
+</style>

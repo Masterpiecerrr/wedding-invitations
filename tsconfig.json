@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -10,8 +14,23 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "paths": { "@/*": ["./src/*"] },
-    "types": ["node"]
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@config": [
+        "./wedding.config.ts"
+      ]
+    },
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "vite.config.ts",
+    "build/**/*.ts",
+    "wedding.config.ts"
+  ]
 }

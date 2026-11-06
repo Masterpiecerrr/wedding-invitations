@@ -1,98 +1,86 @@
-import { imageSlots, wedding } from '@/data/wedding';
+import { 配置, 日期, 农历, 取照片, 双姓 } from './wedding';
+import raw from './xi.svg?raw';
 
-export const invitationImageName = `${wedding.groom}与${wedding.bride}的婚礼邀请-${wedding.date.replaceAll('.', '-')}.png`;
-export const invitationImageSize = { width: 1080, height: 2160 };
+export const 图片尺寸 = { width: 1080, height: 1920 };
+export const 图片文件名 = `${配置.新人.新郎}与${配置.新人.新娘}的婚礼请柬-${日期.点分}.png`;
 
-function loadPhoto(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.crossOrigin = 'anonymous';
-    image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error('Invitation portrait could not be loaded'));
-    image.src = src;
+const RED = '#9e1c22', DEEP = '#6f1218', GOLD = '#c39a52', GOLD_L = '#e9cf96', CREAM = '#fbf1dc';
+
+function load(src: string) {
+  return new Promise<HTMLImageElement>((ok, fail) => {
+    const img = new Image();
+    img.onload = () => ok(img);
+    img.onerror = () => fail(new Error('照片加载失败'));
+    img.src = src;
   });
 }
 
-/** A paper invitation using the same portrait as the welcome section. */
-export async function createInvitationImage(): Promise<File> {
-  const [photo] = await Promise.all([
-    loadPhoto(imageSlots.portrait.src),
-    document.fonts.load('160px "Letter Hand"'),
-    document.fonts.load('38px "Letter Serif"'),
-  ]);
-  const canvas = document.createElement('canvas');
-  canvas.width = invitationImageSize.width;
-  canvas.height = invitationImageSize.height;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas is unavailable');
-  const red = '#a72f3c';
-  const ink = '#342b28';
-  ctx.fillStyle = '#f8f5ed';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+/** 生成一张竖版红金请柬图片，供宾客保存到相册 */
+export async function 生成请柬图片(): Promise<Blob> {
+  const cover = 取照片(配置.首屏.照片, '');
+  await Promise.all([document.fonts.load('80px WBrush'), document.fonts.load('40px WSong')]).catch(() => undefined);
+  const photo = cover.src ? await load(cover.src).catch(() => null) : null;
 
-  // Fine, repeatable paper grain, kept away from the photograph.
-  let seed = 31;
-  const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
-  for (let i = 0; i < 65000; i++) {
-    ctx.fillStyle = `rgba(103, 79, 57, ${random() * 0.055})`;
-    ctx.fillRect(random() * 1080, random() * 2160, 1.2, 1.2);
-  }
+  const { width: W, height: H } = 图片尺寸;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d')!;
+  const bg = g.createRadialGradient(W / 2, 300, 50, W / 2, 900, 1300);
+  bg.addColorStop(0, '#b5262a'); bg.addColorStop(.6, RED); bg.addColorStop(1, DEEP);
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
 
-  // Preserve the complete portrait, including its existing lettering and veil.
-  const photoHeight = Math.min(1260, 1080 * photo.naturalHeight / photo.naturalWidth);
-  const photoTop = 370;
-  const scale = Math.min(1080 / photo.naturalWidth, photoHeight / photo.naturalHeight);
-  const photoWidth = photo.naturalWidth * scale;
-  ctx.drawImage(photo, (1080 - photoWidth) / 2, photoTop, photoWidth, photoHeight);
-  const footerTop = photoTop + photoHeight;
-  const text = (value: string, x: number, y: number, font: string, color = ink, align: CanvasTextAlign = 'left', maxWidth?: number) => {
-    ctx.font = font;
-    ctx.fillStyle = color;
-    ctx.textAlign = align;
-    ctx.textBaseline = 'alphabetic';
-    if (maxWidth) ctx.fillText(value, x, y, maxWidth);
-    else ctx.fillText(value, x, y);
+  // 双线金框 + 四角回纹
+  g.strokeStyle = GOLD; g.lineWidth = 3; g.strokeRect(36, 36, W - 72, H - 72);
+  g.lineWidth = 1.5; g.globalAlpha = .7; g.strokeRect(52, 52, W - 104, H - 104); g.globalAlpha = 1;
+  const corner = (x: number, y: number, sx: number, sy: number) => {
+    g.save(); g.translate(x, y); g.scale(sx, sy); g.beginPath();
+    g.moveTo(0, 60); g.lineTo(0, 0); g.lineTo(60, 0); g.moveTo(14, 46); g.lineTo(14, 14); g.lineTo(46, 14); g.lineTo(46, 32); g.lineTo(28, 32);
+    g.strokeStyle = GOLD_L; g.lineWidth = 3; g.stroke(); g.restore();
+  };
+  corner(70, 70, 1, 1); corner(W - 70, 70, -1, 1); corner(70, H - 70, 1, -1); corner(W - 70, H - 70, -1, -1);
+
+  const text = (s: string, y: number, font: string, color: string, spacing = 0) => {
+    g.font = font; g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+    if ('letterSpacing' in g) (g as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${spacing}px`;
+    g.fillText(s, W / 2 + spacing / 2, y, W - 180);
   };
 
-  text('我们的', 45, 190, '170px "Letter Hand"', red);
-  text('婚礼', 285, 353, '176px "Letter Hand"', red);
-  text('WELCOME', 620, 105, '22px Georgia', ink);
-  text('TO OUR', 65, 280, '22px Georgia', ink);
-  text('WEDDING', 70, 325, '22px Georgia', ink);
+  text(双姓, 170, '46px WBrush, serif', GOLD_L, 14);
 
-  // A light ribbon drawing echoes the website bows without covering the photo.
-  ctx.save();
-  ctx.translate(900, 215);
-  ctx.rotate(0.12);
-  ctx.strokeStyle = '#786b64';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(-105, -105, -110, 45, 0, 0);
-  ctx.bezierCurveTo(100, -90, 105, 40, 0, 0);
-  ctx.bezierCurveTo(-45, 45, -80, 35, -70, 105);
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(5, 45, 70, 50, 45, 120);
-  ctx.stroke();
-  ctx.restore();
+  // 月洞门照片 或 大囍字
+  const cy = 520, r = 270;
+  if (photo) {
+    g.save(); g.beginPath(); g.arc(W / 2, cy, r, 0, Math.PI * 2); g.clip();
+    const [fx, fy] = cover.焦点.split(/\s+/).map((v) => parseFloat(v) / 100);
+    const s = Math.max((2 * r) / photo.naturalWidth, (2 * r) / photo.naturalHeight);
+    const dw = photo.naturalWidth * s, dh = photo.naturalHeight * s;
+    g.drawImage(photo, W / 2 - r - (dw - 2 * r) * (fx || .5), cy - r - (dh - 2 * r) * (fy || .5), dw, dh);
+    g.restore();
+    g.strokeStyle = GOLD; g.lineWidth = 6; g.beginPath(); g.arc(W / 2, cy, r + 10, 0, Math.PI * 2); g.stroke();
+    g.lineWidth = 2; g.beginPath(); g.arc(W / 2, cy, r + 26, 0, Math.PI * 2); g.stroke();
+  }
+  const d = raw.match(/ d="([^"]+)"/)?.[1] ?? '';
+  const xiSize = photo ? 110 : 400;
+  const xiY = photo ? cy + r - 30 : cy - 210;
+  g.save(); g.translate(W / 2 - xiSize / 2, xiY);
+  if (photo) { g.fillStyle = RED; g.beginPath(); g.arc(xiSize / 2, xiSize * .49, xiSize * .72, 0, Math.PI * 2); g.fill(); g.strokeStyle = GOLD; g.lineWidth = 2; g.stroke(); }
+  g.scale(xiSize / 965, xiSize / 965);
+  const t = raw.match(/translate\(([-\d.]+) ([-\d.]+)\)/);
+  g.translate(Number(t?.[1] ?? 0), Number(t?.[2] ?? 0)); g.scale(1, -1);
+  g.fillStyle = GOLD_L; g.fill(new Path2D(d)); g.restore();
 
-  const y = footerTop + 65;
-  text('【婚礼邀请函】', 55, y, '34px "Letter Serif"', red);
-  text(`${wedding.groom} & ${wedding.bride}`, 1025, y, '34px "Letter Serif"', ink, 'right', 510);
-  text('love', 65, y + 82, 'italic 58px Georgia', red);
-  text('诚挚邀请您参加', 60, y + 155, '27px "Letter Serif"');
-  text('我们的婚礼', 60, y + 202, '27px "Letter Serif"');
-  text('与我们共同见证', 60, y + 294, '27px "Letter Serif"');
-  text('并分享我们的幸福时刻', 60, y + 341, '27px "Letter Serif"');
-  text(wedding.dateLong, 1020, y + 144, '32px "Letter Serif"', ink, 'right', 530);
-  text(`${wedding.lunar} · ${wedding.day}`, 1020, y + 192, '26px "Letter Serif"', ink, 'right');
-  text(`${wedding.welcome} 到场 · ${wedding.ceremony} 仪式`, 1020, y + 242, '25px "Letter Serif"', ink, 'right');
-  text(wedding.venue, 1020, y + 315, '30px "Letter Serif"', ink, 'right', 500);
-  text(wedding.room, 1020, y + 362, '28px "Letter Serif"', ink, 'right');
-  text('I N V I T A T I O N', 1020, y + 445, '24px Georgia', red, 'right');
+  text(`${配置.新人.新郎}  &  ${配置.新人.新娘}`, 1000, '92px WBrush, serif', CREAM, 6);
+  text(配置.首屏.引语, 1080, '44px WBrush, serif', GOLD_L, 12);
 
-  const blob = await new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob((image) => image ? resolve(image) : reject(new Error('Image export failed')), 'image/png');
-  });
-  return new File([blob], invitationImageName, { type: 'image/png' });
+  g.strokeStyle = '#c39a5288'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(240, 1140); g.lineTo(W - 240, 1140); g.stroke();
+  text('谨定于', 1215, '36px WSong, serif', GOLD_L, 10);
+  text(`${日期.中文年月日}　${日期.星期}`, 1290, '46px WSong, serif', CREAM, 6);
+  text(`农历 ${农历}`, 1355, '36px WSong, serif', GOLD_L, 6);
+  text(`迎宾 ${配置.婚礼.迎宾}　·　吉时 ${配置.婚礼.吉时}`, 1425, '36px WSong, serif', CREAM, 4);
+  text(配置.婚礼.酒店, 1530, '68px WBrush, serif', CREAM, 6);
+  text(配置.婚礼.厅, 1595, '38px WSong, serif', GOLD_L, 8);
+  text(配置.婚礼.地址, 1650, '30px WSong, serif', '#e9cf96cc', 2);
+  text(配置.结尾.大字, 1780, '64px WBrush, serif', GOLD_L, 24);
+
+  return new Promise((ok, fail) => c.toBlob((b) => (b ? ok(b) : fail(new Error('导出失败'))), 'image/png'));
 }

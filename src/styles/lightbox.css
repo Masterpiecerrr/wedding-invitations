@@ -1,0 +1,11 @@
+.photo-lightbox { position: fixed; inset: 0; z-index: 70; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #140405; }
+.photo-lightbox figure { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.photo-lightbox-stage { display: grid; place-items: center; width: 100%; height: 78svh; overflow: hidden; touch-action: none; }
+.photo-lightbox-stage img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform .08s; }
+.photo-lightbox figcaption { margin-top: 12px; color: #e9cf96; font-size: 13px; letter-spacing: .12em; }
+.photo-lightbox-close { position: absolute; top: 10px; right: 10px; z-index: 1; width: 46px; height: 46px; border: 1px solid #c39a5288; border-radius: 50%; background: #0006; color: #fbf1dc; font-size: 28px; line-height: 1; }
+.photo-lightbox-zoom { display: flex; align-items: center; gap: 14px; margin-top: 10px; color: #fbf1dc; font-size: 13px; }
+.photo-lightbox-zoom button { width: 38px; height: 38px; border: 1px solid #c39a5288; border-radius: 50%; background: transparent; color: #fbf1dc; font-size: 20px; }
+.photo-lightbox-zoom button:disabled { opacity: .35; }
+.photo-lightbox-enter-active, .photo-lightbox-leave-active { transition: opacity .25s; }
+.photo-lightbox-enter-from, .photo-lightbox-leave-to { opacity: 0; }

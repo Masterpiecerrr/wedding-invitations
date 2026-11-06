@@ -1,0 +1,80 @@
+/* ───────── 设计变量：胭脂红 · 洒金宣纸 · 泥金 ───────── */
+:root {
+  --red-deep: #6f1218;
+  --red: #9e1c22;
+  --red-bright: #c22d2a;
+  --gold: #c39a52;
+  --gold-light: #e9cf96;
+  --paper: #f6ecdc;
+  --paper-deep: #eadbc1;
+  --ink: #2b1d18;
+  --ink-soft: #6d5547;
+  --cream: #fbf1dc;
+  --brush: 'WBrush', 'STKaiti', 'KaiTi', serif;
+  --song: 'WSong', 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  --col: min(100vw, 480px);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background-color: var(--red-deep);
+  background-image:
+    radial-gradient(circle at 50% 0, #8e1a22 0, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M8 8h20v20H14V14h8v8' fill='none' stroke='%23c39a52' stroke-opacity='.13' stroke-width='2'/%3E%3Cpath d='M40 40h20v20H46V46h8v8' fill='none' stroke='%23c39a52' stroke-opacity='.13' stroke-width='2'/%3E%3C/svg%3E");
+  color: var(--ink);
+  font: 16px/1.85 var(--song);
+  -webkit-font-smoothing: antialiased;
+}
+body.is-locked { overflow: hidden; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+p, h1, h2, h3, figure, blockquote, dl, dd, ol, ul { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+
+/* 手机宽度的一列；电脑上居中，两侧露出回纹红底 */
+.page { position: relative; width: var(--col); margin: 0 auto; background: var(--paper); box-shadow: 0 0 60px #0006; overflow: clip; }
+
+/* 洒金宣纸 */
+.paper {
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 12% 18%, #c39a5233 0 1.2px, transparent 1.6px),
+    radial-gradient(circle at 63% 41%, #c39a5226 0 1px, transparent 1.4px),
+    radial-gradient(circle at 37% 77%, #c39a522e 0 1.4px, transparent 1.8px),
+    radial-gradient(circle at 86% 64%, #c39a5222 0 .9px, transparent 1.3px);
+  background-size: 97px 89px, 71px 103px, 113px 79px, 59px 67px;
+}
+
+/* ───────── 通用：段落标题（书法 + 两侧金线菱形） ───────── */
+.sec { position: relative; padding: 76px 24px 72px; text-align: center; }
+.sec + .sec::before {
+  content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11h4V3h8v6H8V6' fill='none' stroke='%23c39a52' stroke-width='1.2'/%3E%3Cpath d='M12 11h4V3h8' fill='none' stroke='%23c39a52' stroke-width='1.2'/%3E%3C/svg%3E") repeat-x center / 24px 12px;
+  opacity: .55;
+}
+.sec-title { display: flex; align-items: center; justify-content: center; gap: 14px; color: var(--red); font: 400 38px/1.2 var(--brush); letter-spacing: .08em; }
+.sec-title::before, .sec-title::after { content: ''; width: 34px; height: 9px; flex: none; background: linear-gradient(var(--gold), var(--gold)) center / 100% 1px no-repeat, linear-gradient(45deg, transparent 38%, var(--gold) 38% 62%, transparent 62%) right center / 9px 9px no-repeat; }
+.sec-title::after { transform: scaleX(-1); }
+.sec-sub { margin-top: 12px; color: var(--ink-soft); font-size: 14px; letter-spacing: .12em; }
+
+/* 红底区块（首屏、结尾） */
+.on-red { background: var(--red); color: var(--cream); background-image: radial-gradient(ellipse at 50% 0, #b5262a 0, transparent 65%), radial-gradient(ellipse at 50% 100%, var(--red-deep) 0, transparent 70%); }
+
+/* 按钮 */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 10px 26px; border: 1px solid var(--red); border-radius: 2px; background: var(--red); color: var(--cream); font: 16px var(--song); letter-spacing: .14em; text-decoration: none; transition: background .2s, transform .2s; }
+.btn:hover { background: var(--red-deep); }
+.btn:active { transform: scale(.97); }
+.btn[disabled] { cursor: default; opacity: .55; }
+.btn-line { background: transparent; color: var(--red); }
+.btn-line:hover { background: #9e1c220d; }
+.btn-gold { border-color: var(--gold-light); background: transparent; color: var(--gold-light); }
+.btn-gold:hover { background: #e9cf961a; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
