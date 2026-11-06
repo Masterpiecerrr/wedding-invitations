@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import { weddingPlugin } from './build/wedding-plugin';
 
 export default defineConfig({
-  base: '/',
+  base: './',
   plugins: [vue(), weddingPlugin()],
   resolve: {
     alias: {

@@ -146,7 +146,8 @@ export function weddingPlugin(): Plugin {
   let manifest: { photos: Record<string, PhotoInfo>; music: string; lunar: string; fonts: { brush: string; song: string } } = { photos: {}, music: '', lunar: '', fonts: { brush: '', song: '' } };
   let ready: Promise<void> | null = null;
 
-  const add = (fileName: string, source: Buffer, type: string) => { assets.set('/' + fileName, { fileName, source, type }); return '/' + fileName; };
+  let base = '/';
+  const add = (fileName: string, source: Buffer, type: string) => { assets.set('/' + fileName, { fileName, source, type }); return base + fileName; };
 
   async function prepare() {
     const t0 = Date.now();
@@ -200,7 +201,7 @@ export function weddingPlugin(): Plugin {
   return {
     name: 'wedding-assets',
     enforce: 'pre',
-    configResolved(c) { isBuild = c.command === 'build'; },
+    configResolved(c) { isBuild = c.command === 'build'; base = c.base || '/'; },
     resolveId(id) { return id === VIRTUAL ? RESOLVED : undefined; },
     async load(id) {
       if (id !== RESOLVED) return;
