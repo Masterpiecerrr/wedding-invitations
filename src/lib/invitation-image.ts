@@ -1,10 +1,11 @@
 import { 配置, 日期, 农历, 取照片, 双姓 } from './wedding';
 import raw from './xi.svg?raw';
+import silkArt from '../assets/art/round-silk.webp';
 
 export const 图片尺寸 = { width: 1080, height: 1920 };
 export const 图片文件名 = `${配置.新人.新郎}与${配置.新人.新娘}的婚礼请柬-${日期.点分}.png`;
 
-const RED = '#831f24', DEEP = '#67191f', GOLD = '#b69766', GOLD_L = '#dec08a', CREAM = '#faf4e8';
+const RED = '#831f24', GOLD = '#b69766', GOLD_L = '#dec08a', CREAM = '#faf4e8', INK = '#533b30', MUTED = '#806b57';
 
 function load(src: string) {
   return new Promise<HTMLImageElement>((ok, fail) => {
@@ -15,72 +16,84 @@ function load(src: string) {
   });
 }
 
-/** 生成一张竖版红金请柬图片，供宾客保存到相册 */
+/** 生成与页面一致的宋式竖版请柬，保留照片选择与 PNG 下载流程。 */
 export async function 生成请柬图片(): Promise<Blob> {
   const cover = 取照片(配置.首屏.照片, '');
-  await Promise.all([document.fonts.load('80px WBrush'), document.fonts.load('40px WSong')]).catch(() => undefined);
+  await document.fonts.load('80px WSong').catch(() => undefined);
   const photo = cover.src ? await load(cover.src).catch(() => null) : null;
-
+  const artwork = photo ?? await load(silkArt);
   const { width: W, height: H } = 图片尺寸;
   const c = document.createElement('canvas');
   c.width = W; c.height = H;
-  const g = c.getContext('2d')!;
-  const bg = g.createRadialGradient(W / 2, 300, 50, W / 2, 900, 1300);
-  bg.addColorStop(0, '#a73535'); bg.addColorStop(.6, RED); bg.addColorStop(1, DEEP);
-  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  const g = c.getContext('2d');
+  if (!g) throw new Error('无法创建请柬画布');
 
-  // 双线金框 + 四角回纹
-  g.strokeStyle = GOLD; g.lineWidth = 3; g.strokeRect(36, 36, W - 72, H - 72);
-  g.lineWidth = 1.5; g.globalAlpha = .7; g.strokeRect(52, 52, W - 104, H - 104); g.globalAlpha = 1;
-  const corner = (x: number, y: number, sx: number, sy: number) => {
-    g.save(); g.translate(x, y); g.scale(sx, sy); g.beginPath();
-    g.moveTo(0, 60); g.lineTo(0, 0); g.lineTo(60, 0); g.moveTo(14, 46); g.lineTo(14, 14); g.lineTo(46, 14); g.lineTo(46, 32); g.lineTo(28, 32);
-    g.strokeStyle = GOLD_L; g.lineWidth = 3; g.stroke(); g.restore();
-  };
-  corner(70, 70, 1, 1); corner(W - 70, 70, -1, 1); corner(70, H - 70, 1, -1); corner(W - 70, H - 70, -1, -1);
+  g.fillStyle = CREAM; g.fillRect(0, 0, W, H);
+  g.fillStyle = RED; g.fillRect(0, 0, W, 1030);
+  g.strokeStyle = '#dec08a55'; g.lineWidth = 1;
+  g.strokeRect(44, 44, W - 88, 942);
 
-  const text = (s: string, y: number, font: string, color: string, spacing = 0) => {
-    g.font = font; g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-    if ('letterSpacing' in g) (g as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = `${spacing}px`;
-    g.fillText(s, W / 2 + spacing / 2, y, W - 180);
-  };
-
-  text(双姓, 170, '46px WBrush, serif', GOLD_L, 14);
-
-  // 月洞门照片 或 大囍字
-  const cy = 520, r = 270;
-  if (photo) {
-    g.save(); g.beginPath(); g.arc(W / 2, cy, r, 0, Math.PI * 2); g.clip();
-    const [fx, fy] = cover.焦点.split(/\s+/).map((v) => parseFloat(v) / 100);
-    const s = Math.max((2 * r) / photo.naturalWidth, (2 * r) / photo.naturalHeight);
-    const dw = photo.naturalWidth * s, dh = photo.naturalHeight * s;
-    g.drawImage(photo, W / 2 - r - (dw - 2 * r) * (fx || .5), cy - r - (dh - 2 * r) * (fy || .5), dw, dh);
+  const text = (s: string, y: number, size: number, color: string, spacing = 0, maxWidth = W - 180) => {
+    g.save();
+    g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+    if ('letterSpacing' in g) g.letterSpacing = `${spacing}px`;
+    g.font = `400 ${size}px WSong, serif`;
+    // 缩字号保持字形比例，避免 Canvas 的 maxWidth 将长姓名横向压扁。
+    const measured = g.measureText(s).width;
+    if (measured > maxWidth) g.font = `400 ${size * maxWidth / measured}px WSong, serif`;
+    g.fillText(s, W / 2, y);
     g.restore();
-    g.strokeStyle = GOLD; g.lineWidth = 6; g.beginPath(); g.arc(W / 2, cy, r + 10, 0, Math.PI * 2); g.stroke();
-    g.lineWidth = 2; g.beginPath(); g.arc(W / 2, cy, r + 26, 0, Math.PI * 2); g.stroke();
+  };
+  const line = (y: number, width: number) => {
+    g.strokeStyle = '#b6976655'; g.lineWidth = 1;
+    g.beginPath(); g.moveTo((W - width) / 2, y); g.lineTo((W + width) / 2, y); g.stroke();
+  };
+
+  text(双姓, 142, 28, GOLD_L, 7);
+  const cy = 443, r = 235;
+  g.save(); g.beginPath(); g.arc(W / 2, cy, r, 0, Math.PI * 2); g.clip();
+  const [fx, fy] = cover.焦点.split(/\s+/).map(v => parseFloat(v) / 100);
+  const scale = Math.max(2 * r / artwork.naturalWidth, 2 * r / artwork.naturalHeight);
+  const dw = artwork.naturalWidth * scale, dh = artwork.naturalHeight * scale;
+  const focusX = photo && Number.isFinite(fx) ? fx : .5;
+  const focusY = photo && Number.isFinite(fy) ? fy : .5;
+  g.drawImage(artwork, W / 2 - r - (dw - 2 * r) * focusX, cy - r - (dh - 2 * r) * focusY, dw, dh);
+  g.restore();
+  g.strokeStyle = '#dec08a66'; g.lineWidth = 1.5;
+  g.beginPath(); g.arc(W / 2, cy, r + 12, 0, Math.PI * 2); g.stroke();
+
+  text(`${配置.新人.新郎}  ·  ${配置.新人.新娘}`, 818, 76, '#f1dfbf', 5);
+  text(配置.首屏.引语, 906, 30, GOLD_L, 5);
+
+  text('谨定于', 1135, 25, MUTED, 8);
+  text(`${日期.中文年月日}　${日期.星期}`, 1216, 40, RED, 3);
+  text(`农历 ${农历}`, 1275, 27, MUTED, 3);
+  text(`迎宾 ${配置.婚礼.迎宾}　·　吉时 ${配置.婚礼.吉时}`, 1344, 30, INK, 2);
+  line(1390, 150);
+  text(配置.婚礼.酒店, 1480, 49, RED, 4);
+  text(配置.婚礼.厅, 1542, 29, INK, 4);
+
+  // 地址按测量宽度换行，保持小字号在手机上仍可辨认。
+  g.font = '26px WSong, serif';
+  const addressLines: string[] = [];
+  let row = '';
+  for (const ch of 配置.婚礼.地址) {
+    if (g.measureText(row + ch).width > 830 && row) { addressLines.push(row); row = ch; }
+    else row += ch;
   }
+  if (row) addressLines.push(row);
+  const address = addressLines.length > 2 ? [addressLines[0], addressLines.slice(1).join('')] : addressLines;
+  address.forEach((value, i) => text(value, 1601 + i * 39, 26, MUTED, 0, 830));
+
   const d = raw.match(/ d="([^"]+)"/)?.[1] ?? '';
-  const xiSize = photo ? 110 : 400;
-  const xiY = photo ? cy + r - 30 : cy - 210;
-  g.save(); g.translate(W / 2 - xiSize / 2, xiY);
-  if (photo) { g.fillStyle = RED; g.beginPath(); g.arc(xiSize / 2, xiSize * .49, xiSize * .72, 0, Math.PI * 2); g.fill(); g.strokeStyle = GOLD; g.lineWidth = 2; g.stroke(); }
-  g.scale(xiSize / 965, xiSize / 965);
   const t = raw.match(/translate\(([-\d.]+) ([-\d.]+)\)/);
+  const size = 34;
+  g.save(); g.translate(W / 2, 1730); g.rotate(-.035);
+  g.strokeStyle = '#a6433e99'; g.lineWidth = 1.5; g.strokeRect(-26, -28, 52, 56);
+  g.translate(-size / 2, -size / 2); g.scale(size / 965, size / 965);
   g.translate(Number(t?.[1] ?? 0), Number(t?.[2] ?? 0)); g.scale(1, -1);
-  g.fillStyle = GOLD_L; g.fill(new Path2D(d)); g.restore();
+  g.fillStyle = RED; g.fill(new Path2D(d)); g.restore();
+  text(配置.结尾.大字, 1830, 32, RED, 10);
 
-  text(`${配置.新人.新郎}  &  ${配置.新人.新娘}`, 1000, '92px WBrush, serif', CREAM, 6);
-  text(配置.首屏.引语, 1080, '44px WBrush, serif', GOLD_L, 12);
-
-  g.strokeStyle = '#b6976688'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(240, 1140); g.lineTo(W - 240, 1140); g.stroke();
-  text('谨定于', 1215, '36px WSong, serif', GOLD_L, 10);
-  text(`${日期.中文年月日}　${日期.星期}`, 1290, '46px WSong, serif', CREAM, 6);
-  text(`农历 ${农历}`, 1355, '36px WSong, serif', GOLD_L, 6);
-  text(`迎宾 ${配置.婚礼.迎宾}　·　吉时 ${配置.婚礼.吉时}`, 1425, '36px WSong, serif', CREAM, 4);
-  text(配置.婚礼.酒店, 1530, '68px WBrush, serif', CREAM, 6);
-  text(配置.婚礼.厅, 1595, '38px WSong, serif', GOLD_L, 8);
-  text(配置.婚礼.地址, 1650, '30px WSong, serif', '#dec08acc', 2);
-  text(配置.结尾.大字, 1780, '64px WBrush, serif', GOLD_L, 24);
-
-  return new Promise((ok, fail) => c.toBlob((b) => (b ? ok(b) : fail(new Error('导出失败'))), 'image/png'));
+  return new Promise((ok, fail) => c.toBlob(b => b ? ok(b) : fail(new Error('导出失败')), 'image/png'));
 }

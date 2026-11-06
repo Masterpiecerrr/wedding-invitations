@@ -126,14 +126,14 @@ async function makeShareCover(cover: { file: string; focus: string } | null): Pr
       <rect width="${S}" height="${S}" fill="url(#g)"/>
       <rect x="14" y="14" width="${S - 28}" height="${S - 28}" fill="none" stroke="#dec08a" stroke-width="2" opacity=".85"/>
       ${xiAt(S / 2 - 34, 392, 68, '#dec08a')}
-      ${centered(brush, names, 518, 56, '#faf4e8', 4)}
+      ${centered(song, names, 518, 56, '#faf4e8', 4)}
       ${centered(song, d.点分, 562, 24, '#dec08a', 3)}`;
   } else {
     base = sharp({ create: { width: S, height: S, channels: 3, background: '#831f24' } });
     overlay = `<rect x="18" y="18" width="${S - 36}" height="${S - 36}" fill="none" stroke="#dec08a" stroke-width="2"/>
       <rect x="28" y="28" width="${S - 56}" height="${S - 56}" fill="none" stroke="#dec08a" stroke-width="1" opacity=".6"/>
       ${xiAt(S / 2 - 110, 92, 220, '#dec08a')}
-      ${centered(brush, names, 430, 64, '#faf4e8', 6)}
+      ${centered(song, names, 430, 64, '#faf4e8', 6)}
       ${centered(song, `${d.点分}  ${svgEscape(配置.婚礼.酒店)}`, 492, 26, '#dec08a', 2)}`;
   }
   const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}">${overlay}</svg>`);

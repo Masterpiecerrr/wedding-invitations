@@ -1,0 +1,127 @@
+/* 工笔花鸟只作装饰：不拦截点击，不改变占位、开门与翻牌状态。 */
+.doors.doors .door-copy { padding: 30px 26px; }
+.doors.doors .studs { overflow: hidden; }
+.doors.doors .knocker {
+  width: min(80vw, 360px, calc((100svh - 235px) * .6667));
+  height: auto; aspect-ratio: 2 / 3;
+  margin: 0; filter: drop-shadow(0 12px 18px #360c122b);
+}
+.doors.doors .knocker-face {
+  inset: 0; border: 0; outline: 0; border-radius: 0; box-shadow: none;
+  background: url('../assets/art/fan.webp') center / contain no-repeat;
+}
+.doors.doors .knocker-ring { border: 0; opacity: 0; }
+.doors.doors .knocker-xi {
+  position: absolute; width: 26%; left: 29%; top: 20%;
+  color: #962b2e; filter: none; transform: rotate(-8deg);
+}
+.doors.doors .knocker-face b {
+  position: absolute; left: 20%; top: 20%; width: 46%;
+  color: #962b2e; font-size: clamp(30px, 12vw, 64px); transform: rotate(-8deg);
+}
+.doors.doors .door-houses { margin-top: 3px; font-size: clamp(26px, 7vw, 34px); }
+.doors.doors .door-date { margin-top: 10px; }
+.doors.doors .door-hint { margin-top: 23px; border: 1px solid #dec08a80; background: #67191f40; box-shadow: inset 0 0 0 4px #831f24; }
+.doors.doors .studs::before {
+  content: ''; position: absolute; width: 210px; height: 210px; opacity: .13;
+  background: url('../assets/art/peony.webp') center / contain no-repeat;
+  filter: sepia(1); pointer-events: none;
+}
+.doors.doors .door-l .studs::before { left: -85px; top: 16px; transform: rotate(155deg); }
+.doors.doors .door-r .studs::before { right: -85px; bottom: 16px; transform: rotate(-20deg); }
+
+/* 月洞窗外生花，照片及原有占位提示仍完整保留。 */
+.page.page .moon::before, .page.page .moon::after {
+  content: ''; position: absolute; width: 57%; aspect-ratio: 1; z-index: 2;
+  background: url('../assets/art/peony.webp') center / contain no-repeat; pointer-events: none;
+}
+.page.page .moon::before { left: -25%; top: -20%; transform: rotate(160deg); }
+.page.page .moon::after { right: -25%; bottom: -13%; transform: rotate(-18deg); }
+.page.page .moon-xi { z-index: 3; }
+.page.page .hero { padding-top: 58px; }
+.page.page .hero-houses { padding: 0 28px 12px; border-bottom: 1px solid #dec08a50; }
+
+/* 册页式婚书：绢纸丝栏、装裱边与一角淡彩。 */
+.page.page .letter-sec { padding-top: 76px; padding-bottom: 76px; }
+.page.page .letter {
+  background-image: linear-gradient(90deg, #b6976610, transparent 7%, transparent 93%, #b6976610), repeating-linear-gradient(0deg, #a78c5804 0 1px, transparent 1px 3px);
+  border-top: 3px double #b6976680; border-bottom: 3px double #b6976680;
+}
+.page.page .letter::after {
+  content: ''; position: absolute; right: -24px; top: -48px; width: 118px; height: 118px;
+  background: url('../assets/art/peony.webp') center / contain no-repeat;
+  transform: rotate(-12deg); pointer-events: none; opacity: .65;
+}
+.page.page .letter-body { background-image: linear-gradient(to left, #962b2e28 1px, transparent 1px); border-color: #962b2e28; }
+.page.page .letter-title { padding-bottom: 12px; }
+.page.page .letter-sign { padding-top: 23px; }
+
+/* 故事用红绸串联，花枝留在标题外侧，不压正文。 */
+.page.page .story { padding-top: 80px; }
+.page.page .story::after, .page.page .gallery::after {
+  content: ''; position: absolute; width: 108px; height: 108px; right: -15px; top: 3px;
+  background: url('../assets/art/peony.webp') center / contain no-repeat; opacity: .24; pointer-events: none;
+}
+.page.page .silk { width: 2px; background: linear-gradient(#a6433e30, #a6433eaa, #a6433e30); box-shadow: 4px 0 0 -1px #b6976630; }
+.page.page .ch-pic, .page.page .letter-pic, .page.page .shot, .page.page .venue-pic {
+  box-shadow: 0 0 0 6px #fffaf0, 0 0 0 7px #b6976660, 0 0 0 11px #b6976610, 0 13px 26px #533b3010;
+}
+.page.page .chapter { padding-bottom: 50px; }
+.page.page .chapter:last-child { padding-bottom: 0; }
+
+/* 红花笺翻牌：浅色答案与暗纹正面形成对比。 */
+.page.page .front::after {
+  content: ''; position: absolute; inset: 0; background: url('../assets/art/peony.webp') right -25px bottom -30px / 140px no-repeat;
+  opacity: .15; filter: sepia(1); pointer-events: none;
+}
+.page.page .front i, .page.page .front b { position: relative; z-index: 1; }
+.page.page .front i { border: 1px solid #dec08a80; outline: 1px solid #dec08a40; outline-offset: 3px; margin-bottom: 6px; }
+.page.page .back { background-image: repeating-linear-gradient(45deg, #8b4b1903 0 1px, transparent 1px 4px); }
+.page.page .gallery { padding-top: 75px; }
+.page.page .gallery::after { right: auto; left: -20px; transform: rotate(100deg); }
+
+/* 流程花枝低对比，文字仍是视觉重点。 */
+.page.page .schedule {
+  background-image: linear-gradient(#831f24cf, #831f24e8), url('../assets/art/peony.webp');
+  background-position: center, right -60px bottom -65px; background-size: auto, 260px;
+  background-repeat: no-repeat; padding-top: 66px; padding-bottom: 66px;
+}
+.page.page .schedule::after { content: ''; position: absolute; left: 25px; top: 25px; width: 30px; height: 30px; border-top: 1px solid #dec08a80; border-left: 1px solid #dec08a80; pointer-events: none; }
+.page.page .cal { border-top: 3px double #b6976680; }
+.page.page .cal-head { padding-bottom: 8px; }
+.page.page .cal-grid .on { border-radius: 5px; background: #962b2e; box-shadow: 0 0 0 2px #fff9ee, 0 0 0 3px #962b2e90; }
+.page.page .place { background: linear-gradient(135deg, #fff9ee80, #f0e6d640); border: 1px solid #b6976640; outline: 1px solid #b6976620; outline-offset: 4px; }
+
+/* 回执信笺：团扇落在上沿，留出独立装饰空间。 */
+.page.page .rsvp { padding-top: 95px; }
+.page.page .rsvp-card { position: relative; padding-top: 65px; background: #fff9ee; border-bottom: 3px double #b6976680; }
+.page.page .rsvp-card::before {
+  content: ''; position: absolute; width: 100px; height: 150px; right: 5px; top: -88px;
+  background: url('../assets/art/fan.webp') center / contain no-repeat;
+  transform: rotate(24deg); pointer-events: none;
+}
+.page.page .rsvp-card::after { content: ''; position: absolute; left: 18px; top: 18px; width: 24px; height: 24px; border-top: 1px solid #b6976680; border-left: 1px solid #b6976680; pointer-events: none; }
+
+/* 结尾花鸟丰盛，底部预留画面空间，所有文字、按钮位于其上。 */
+.page.page .ending { padding-bottom: 235px; }
+.page.page .ending::after {
+  content: ''; position: absolute; width: 330px; height: 330px; right: -18px; bottom: -75px;
+  background: url('../assets/art/peony.webp') center / contain no-repeat;
+  pointer-events: none; transform: rotate(-12deg);
+}
+.page.page .end-sign { position: relative; z-index: 1; }
+.page.page .end-xi { padding: 13px; box-sizing: content-box; border: 1px solid #dec08a70; outline: 1px solid #dec08a30; outline-offset: 5px; border-radius: 50%; }
+
+@media (max-width: 560px) {
+  .page.page .hero { padding-top: 43px; }
+  .page.page .moon { width: min(60vw, 275px); margin-top: 48px; }
+  .page.page .ending { padding-bottom: 205px; }
+  .page.page .ending::after { width: 290px; height: 290px; }
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  .doors.doors .knocker { width: min(29vh, 175px); }
+  .doors.doors .door-copy { padding: 22px; }
+  .doors.doors .door-houses { margin-top: 0; font-size: 22px; }
+  .doors.doors .door-date { margin-top: 4px; }
+  .doors.doors .door-hint { margin-top: 12px; padding: 7px 16px; }
+}

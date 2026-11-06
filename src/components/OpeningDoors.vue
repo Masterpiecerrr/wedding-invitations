@@ -23,10 +23,11 @@ onBeforeUnmount(() => document.body.classList.remove('is-locked'));
     <div class="door door-r" aria-hidden="true"><i class="studs" /></div>
     <div class="door-copy">
       <p class="door-houses">{{ 双姓 }}</p>
+      <h1 class="cover-names"><span>{{ 配置.新人.新郎 }}</span><span class="cover-seal" aria-hidden="true"><XiMark v-if="配置.开场.题字 === '囍'" /><b v-else>{{ 配置.开场.题字 }}</b></span><span>{{ 配置.新人.新娘 }}</span></h1>
       <p class="door-date">{{ 日期.中文年月日 }}</p>
       <button class="knocker" type="button" :aria-label="`开启请柬：${配置.新人.新郎}与${配置.新人.新娘}的婚礼`" @click="open">
         <span class="knocker-ring" aria-hidden="true" />
-        <span class="knocker-face"><XiMark v-if="配置.开场.题字 === '囍'" class="knocker-xi" /><b v-else>{{ 配置.开场.题字 }}</b></span>
+        <span class="knocker-face" aria-hidden="true" />
       </button>
       <p class="door-hint">{{ 配置.开场.提示 }}</p>
     </div>

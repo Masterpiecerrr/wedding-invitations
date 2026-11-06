@@ -12,7 +12,7 @@
   --ink: #533b30;
   --ink-soft: #806b57;
   --cream: #faf4e8;
-  --brush: 'WBrush', 'STKaiti', 'KaiTi', serif;
+  --brush: var(--song);
   --song: 'WSong', 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   --col: min(100vw, 540px);
   color-scheme: light;

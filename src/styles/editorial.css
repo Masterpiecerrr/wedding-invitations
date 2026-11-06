@@ -1,0 +1,137 @@
+/* 宋式画册：圆形由布局保证；绘画、字体与留白服务于新人姓名。 */
+.doors.doors .door-copy { padding: 44px 26px; }
+.doors.doors .door { background: #831f24; }
+.doors.doors .door::before { border-color: #dec08a55; outline: none; }
+.doors.doors .door::after { opacity: .25; }
+.doors.doors .studs { display: none; }
+.doors.doors .door-houses { order: 0; margin: 0 0 35px; font: 400 12px/1.8 var(--song); letter-spacing: .32em; opacity: .85; }
+.doors.doors .knocker { order: 1; width: min(62vw, 300px, 40svh); height: auto; aspect-ratio: 1; margin: 0 0 48px; filter: none; border-radius: 50%; }
+.doors.doors .knocker-face { inset: 0; border-radius: 50%; border: 1px solid #d5b98d; outline: none; box-shadow: none; background: #f5eddb url('../assets/art/round-silk.webp') center / cover no-repeat; }
+.doors.doors .knocker-ring { inset: -7px; border: 1px solid #dec08a35; animation: none; }
+.doors.doors .cover-names { order: 2; display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%; font: 400 clamp(25px, 7.8vw, 39px)/1.7 var(--song); letter-spacing: .08em; color: #f1dfbf; }
+.doors.doors .cover-seal { display: grid; place-items: center; flex: none; width: 26px; height: 30px; padding: 5px; border: 1px solid #d9b78d; color: #e4c79e; transform: rotate(-3deg); }
+.doors.doors .cover-seal .xi { width: 100%; }
+.doors.doors .cover-seal b { font: 400 11px/1.2 var(--song); }
+.doors.doors .door-date { order: 3; margin-top: 20px; font: 400 12px/1.9 var(--song); letter-spacing: .18em; opacity: .85; }
+.doors.doors .door-hint { order: 4; margin-top: 40px; padding: 12px 5px; border: 0; border-bottom: 1px solid #dec08a60; background: none; box-shadow: none; font-size: 12px; letter-spacing: .2em; }
+
+/* 全套使用同一宋体字族，数值采用克制的衬线数字。 */
+.page.page .sec { padding-top: 76px; padding-bottom: 76px; }
+.page.page .sec-title { font: 400 27px/1.65 var(--song); letter-spacing: .2em; }
+.page.page .sec-title::before, .page.page .sec-title::after { width: 22px; height: 1px; background: #b6976660; }
+.page.page .sec-sub { font-size: 12px; line-height: 2.1; letter-spacing: .12em; }
+.page.page .sec + .sec::before { left: 38px; right: 38px; background: #b6976630; }
+.page.page .hero { background: var(--paper); color: var(--ink); min-height: 810px; padding-top: 57px; padding-bottom: 45px; }
+.page.page .hero::before { border: 0; outline: none; }
+.page.page .hero-houses { font: 400 12px/1.8 var(--song); color: var(--ink-soft); letter-spacing: .25em; }
+.page.page .moon { width: min(62vw, 290px); margin-top: 38px; }
+.page.page .moon-photo { box-shadow: 0 0 0 8px var(--paper), 0 0 0 9px #b6976655; }
+.page.page .moon-photo .pf-empty { background: #efe6d5; color: #8f795c; }
+.page.page .moon-xi { width: 22px; bottom: -20px; padding: 6px; background: var(--paper); border-radius: 0; color: var(--red); box-shadow: 0 0 0 1px #a6433e70; }
+.page.page .hero-lead { font: 400 12px/1.8 var(--song); color: var(--ink-soft); margin-top: 46px; }
+.page.page .hero-names { color: var(--red); font: 400 clamp(27px, 8vw, 38px)/1.7 var(--song); letter-spacing: .08em; }
+.page.page .hero-names i { color: #b69766; font: italic 20px Georgia, serif; }
+.page.page .hero-quote { color: var(--ink-soft); font: 400 14px/2 var(--song); letter-spacing: .12em; margin-top: 15px; }
+.page.page .hero-date { color: var(--ink); font-size: 13px; margin-top: 28px; }
+.page.page .hero-date small { color: var(--ink-soft); font-size: 11px; }
+.page.page .countdown { border-color: #b6976635; margin-top: 24px; }
+.page.page .countdown b { color: var(--red); font: 21px/1.7 Georgia, serif; }
+.page.page .countdown small, .page.page .cd-label { color: var(--ink-soft); }
+.page.page .scroll-cue { color: var(--red); }
+
+/* 婚书去掉厚边与大印章，用字距、竖排和朱丝栏建立仪式感。 */
+.page.page .letter { padding: 40px 20px 30px; background: #fffaf1; border-top: 1px solid #b6976670; border-bottom: 1px solid #b6976670; box-shadow: none; }
+.page.page .letter::before { display: none; }
+.page.page .letter-title { font: 400 31px/1.6 var(--song); letter-spacing: .38em; text-indent: .38em; }
+.page.page .letter-body { font: 400 16px/2.1 var(--song); height: calc(14 * 1.06em); letter-spacing: .06em; margin-top: 32px; background-image: linear-gradient(to left, #a6433e26 1px, transparent 1px); border-color: #a6433e26; }
+.page.page .letter-sign { margin-top: 32px; border-color: #b6976630; column-gap: 26px; }
+.page.page .letter-sign dd { font: 400 19px/1.9 var(--song); letter-spacing: .1em; }
+.page.page .letter-sign dt { font-size: 11px; }
+.page.page .letter-date { font-size: 10px; letter-spacing: .1em; }
+.page.page .seal { width: 48px; height: 48px; padding: 5px; border-radius: 0; font: 400 15px/1.2 var(--song); transform: rotate(-2deg); opacity: .85; }
+.page.page .seal[data-count='1'], .page.page .seal[data-count='2'] { font-size: 19px; }
+.page.page .letter-pic, .page.page .ch-pic, .page.page .shot, .page.page .venue-pic { box-shadow: 0 0 0 6px #fffaf1, 0 0 0 7px #b6976630; }
+
+/* 故事与相册以内容为主，不重复堆叠花枝。 */
+.page.page .trail { margin-top: 42px; }
+.page.page .ch-time { font: 12px/1.8 var(--song); letter-spacing: .15em; color: #967345; }
+.page.page .ch-title { font: 400 23px/1.8 var(--song); letter-spacing: .14em; margin-top: 8px; }
+.page.page .ch-text { font: 400 14px/2.1 var(--song); color: var(--ink-soft); }
+.page.page .chapter { padding-bottom: 48px; }
+.page.page .chapter:last-child { padding-bottom: 0; }
+.page.page .silk { background: #a6433e50; width: 1px; box-shadow: none; }
+.page.page .qa-grid { gap: 14px; }
+.page.page .front { background: #efe6d7; color: var(--ink); box-shadow: inset 0 0 0 1px #b6976640; }
+.page.page .front i { border: 1px solid #a6433e60; color: var(--red); background: none; font: 11px/1 var(--song); }
+.page.page .front b { font: 400 16px/1.85 var(--song); letter-spacing: .04em; }
+.page.page .back { background: #fffaf1; box-shadow: inset 0 0 0 1px #b6976670; }
+.page.page .back b { font: 400 13px/1.9 var(--song); }
+.page.page .back i { font: 11px/1 var(--song); }
+.page.page .pager { font: 12px/1.8 Georgia, var(--song); }
+.page.page .pager button { width: 36px; height: 36px; border-color: #b6976650; }
+
+/* 流程保留朱红节奏，日历与酒店信息简化为纸面排版。 */
+.page.page .schedule { background: #831f24; outline: none; }
+.page.page .schedule .sec-title { color: var(--gold-light); }
+.page.page .schedule .sec-title::before, .page.page .schedule .sec-title::after { background: #dec08a70; }
+.page.page .steps b { font: 400 18px/1.8 var(--song); letter-spacing: .12em; }
+.page.page .steps small { font-size: 12px; }
+.page.page .steps time { font: 18px/1.8 Georgia, serif; }
+.page.page .cal { background: transparent; outline: none; box-shadow: none; padding-left: 12px; padding-right: 12px; border-top: 1px solid #b6976660; border-bottom: 1px solid #b6976660; }
+.page.page .cal-head b { font: 400 25px/1.6 var(--song); }
+.page.page .cal-grid, .page.page .cal-head { font-family: Georgia, var(--song); }
+.page.page .cal-foot { font-size: 13px; }
+.page.page .cal-foot small { font-size: 11px; }
+.page.page .cal-grid .on { border-radius: 3px; box-shadow: none; }
+.page.page .times dd { font: 27px/1.7 Georgia, serif; }
+.page.page .place { padding: 28px 10px; border: 0; }
+.page.page .place h3 { font: 400 23px/1.8 var(--song); letter-spacing: .12em; }
+.page.page .hall { font: 13px/2 var(--song); }
+.page.page .addr { font: 12px/2 var(--song); }
+.page.page .note { background: none; font-size: 11px; }
+.page.page .rsvp-card { padding: 35px 15px; border: 0; outline: none; box-shadow: none; background: transparent; }
+.page.page .rsvp-card .sec-title { font: 400 27px/1.7 var(--song); }
+.page.page .rsvp-text { font: 400 14px/2.2 var(--song); max-width: 18em; }
+.page.page .rsvp-due { font-size: 11px; }
+.page.page .rsvp-btn { min-width: 0; width: min(100%, 260px); }
+
+/* 结尾以小圆画呼应，不再使用大幅花束与粗重标题。 */
+.page.page .ending { background: #831f24; padding: 68px 35px 60px; }
+.page.page .ending::before { border: 1px solid #dec08a35; outline: none; }
+.page.page .ending::after { content: ''; display: block; width: 115px; height: 115px; margin: 36px auto 0; border-radius: 50%; background: url('../assets/art/round-silk.webp') center / cover; opacity: .9; pointer-events: none; }
+.page.page .end-xi { width: 22px; padding: 7px; box-sizing: content-box; border: 1px solid #dec08a80; }
+.page.page .end-big { font: 400 32px/1.8 var(--song); letter-spacing: .23em; text-indent: .23em; margin-top: 22px; }
+.page.page .end-text { font: 400 13px/2.2 var(--song); }
+.page.page .end-parents { border-color: #dec08a30; }
+.page.page .end-parents p { font: 400 16px/2 var(--song); }
+.page.page .end-parents span { font-size: 12px; }
+.page.page .end-sign { font: 11px/2 var(--song); letter-spacing: .12em; }
+.save-dialog.save-dialog .save-hint { font: 12px/1.9 var(--song); }
+.save-dialog.save-dialog { padding: 42px 20px 22px; border: 0; box-shadow: 0 20px 70px #28171340; }
+.save-dialog.save-dialog .save-close { top: 0; right: 4px; z-index: 1; }
+.save-dialog.save-dialog .save-body img { margin-top: 0; box-shadow: 0 3px 15px #533b3010; }
+.save-dialog.save-dialog .save-dl { min-width: 180px; font-size: 13px; }
+
+@media (max-width: 560px) {
+  .doors.doors .door-copy { padding: 35px 22px; }
+  .doors.doors .knocker { margin-bottom: 40px; }
+  .doors.doors .cover-names { gap: 13px; }
+  .doors.doors .cover-seal { width: 23px; height: 27px; }
+  .page.page .sec { padding-top: 62px; padding-bottom: 62px; }
+  .page.page .hero { min-height: 100svh; padding-top: 42px; }
+  .page.page .letter { padding-left: 14px; padding-right: 14px; }
+  .page.page .letter-body { font-size: 15px; }
+  .page.page .letter-title { font-size: 29px; }
+}
+@media (max-width: 360px) {
+  .doors.doors .cover-names { font-size: 25px; gap: 10px; }
+  .page.page .sec-title, .page.page .rsvp-card .sec-title { font-size: 24px; }
+  .page.page .letter-sign { column-gap: 16px; }
+}
+@media (max-height: 620px) {
+  .doors.doors .door-houses { margin-bottom: 16px; }
+  .doors.doors .knocker { width: min(46vw, 30svh); margin-bottom: 18px; }
+  .doors.doors .cover-names { font-size: 26px; }
+  .doors.doors .door-date { margin-top: 10px; }
+  .doors.doors .door-hint { margin-top: 16px; }
+}
