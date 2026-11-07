@@ -1,7 +1,20 @@
 <script setup lang="ts">
 import { emojiBlast } from 'emoji-blast';
 import { 配置, 日期 } from '@/lib/wedding';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import XiMark from './XiMark.vue';
+import TuanFan from './TuanFan.vue';
+
+// 团扇归来：滚动到结尾时，开场移开的团扇缓缓落回，盖上「礼成」印
+const fanEl = ref<HTMLElement | null>(null);
+const fanIn = ref(false);
+let io: IntersectionObserver | null = null;
+onMounted(() => {
+  if (!fanEl.value || !('IntersectionObserver' in window)) { fanIn.value = true; return; }
+  io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { fanIn.value = true; io?.disconnect(); } }, { threshold: .45 });
+  io.observe(fanEl.value);
+});
+onBeforeUnmount(() => io?.disconnect());
 
 const 父母 = 配置.父母;
 const 两家 = [
@@ -32,6 +45,9 @@ function sweets(e: MouseEvent) {
       <span>{{ 配置.结尾.落款 }}</span>
     </div>
     <button class="btn btn-gold end-sweets" type="button" @click="sweets">🍬 {{ 配置.结尾.喜糖按钮 }}</button>
+    <div ref="fanEl" class="end-fan" :data-in="fanIn || undefined">
+      <span class="end-fan-sway"><TuanFan><span class="end-seal">{{ 配置.结尾.印章 }}</span></TuanFan></span>
+    </div>
     <p class="end-sign">{{ 配置.新人.新郎 }} & {{ 配置.新人.新娘 }}　{{ 日期.点分 }}</p>
   </footer>
 </template>
@@ -47,5 +63,12 @@ function sweets(e: MouseEvent) {
 .end-parents:has(p + p) { display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 22px; }
 .end-parents:has(p + p) span { grid-column: 2; grid-row: 1 / 3; }
 .end-sweets { margin-top: 34px; }
-.end-sign { margin-top: 40px; color: #e9cf96aa; font-size: 12.5px; letter-spacing: .2em; }
+.end-fan { --face: 132px; width: var(--face); margin: 46px auto 0; opacity: 0; transform: translate(-70px, -60px) rotate(-30deg) scale(.85); transition: transform 1.6s cubic-bezier(.2, .7, .25, 1), opacity 1s ease; }
+.end-fan[data-in] { opacity: 1; transform: none; }
+.end-fan-sway { display: block; transform-origin: 50% 78%; animation: end-sway 6s ease-in-out 1.6s infinite; }
+@keyframes end-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(-1deg); } }
+.end-seal { display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid #b8262c; border-radius: 3px; color: #b8262c; font: 400 17px/1.05 var(--song); letter-spacing: .02em; writing-mode: vertical-rl; background: #b8262c10; opacity: 0; transform: rotate(-6deg) scale(1.6); transition: opacity .35s ease 1.5s, transform .35s cubic-bezier(.3, 1.6, .5, 1) 1.5s; }
+.end-fan[data-in] .end-seal { opacity: .92; transform: rotate(-6deg) scale(1); }
+@media (prefers-reduced-motion: reduce) { .end-fan, .end-seal { transition: none; } .end-fan-sway { animation: none; } }
+.end-sign { margin-top: 26px; color: #e9cf96aa; font-size: 12.5px; letter-spacing: .2em; }
 </style>

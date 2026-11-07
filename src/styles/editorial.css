@@ -83,7 +83,6 @@
 /* 结尾以小圆画呼应，不再使用大幅花束与粗重标题。 */
 .page.page .ending { background: #831f24; padding: 68px 35px 60px; }
 .page.page .ending::before { border: 1px solid #dec08a35; outline: none; }
-.page.page .ending::after { content: ''; display: block; width: 115px; height: 115px; margin: 36px auto 0; border-radius: 50%; background: url('../assets/art/round-silk.webp') center / cover; opacity: .9; pointer-events: none; }
 .page.page .end-xi { width: 22px; padding: 7px; box-sizing: content-box; border: 1px solid #dec08a80; }
 .page.page .end-big { font: 400 32px/1.8 var(--song); letter-spacing: .23em; text-indent: .23em; margin-top: 22px; }
 .page.page .end-text { font: 400 13px/2.2 var(--song); }
