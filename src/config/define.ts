@@ -34,7 +34,7 @@ export interface 婚礼配置 {
   流程: { 标题: string; 项目: { 时间: string; 事项: string; 说明?: string }[] };
   时间地点: { 标题: string; 酒店照片: 照片; 补充说明: string };
   回执: { 标题: string; 正文: string; 问卷链接: string; 按钮文字: string; 截止说明: string };
-  结尾: { 大字: string; 正文: string; 喜糖按钮: string; 落款: string };
+  结尾: { 大字: string; 正文: string; 喜糖按钮: string; 喜糖计数: string; 落款: string };
 }
 
 export function 定义婚礼配置(配置: 婚礼配置): 婚礼配置 {
