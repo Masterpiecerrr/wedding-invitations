@@ -23,7 +23,7 @@ export interface 婚礼配置 {
   };
   父母: { 显示: boolean; 新郎父亲: string; 新郎母亲: string; 新娘父亲: string; 新娘母亲: string };
   音乐: { 文件: string; 歌名: string; 歌手: string };
-  分享: { 网址: string; 标题: string; 描述: string };
+  分享: { 网址: string; 标题: string; 描述: string; 缩略图?: 照片 };
   模块顺序: 模块名[];
   开场: { 题字: string; 提示: string };
   首屏: { 照片: 照片; 上款: string; 引语: string };

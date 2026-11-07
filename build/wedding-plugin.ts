@@ -94,7 +94,7 @@ function collectText(): string {
 function svgEscape(s: string) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 /** 微信分享封面：600×600 */
-async function makeShareCover(cover: { file: string; focus: string; zoom: number } | null): Promise<Buffer> {
+async function makeShareCover(cover: { file: string; focus: string; zoom: number } | null, plain = false): Promise<Buffer> {
   const S = 600; // 画布坐标按 600 设计，输出放大到 OUT
   const OUT = 600; // 微信卡片只显示小缩略图；图太大（原先 3.5MB）微信会抓取超时、时有时无
   const brush = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'MaShanZheng-Regular.ttf')).buffer as ArrayBuffer);
@@ -126,6 +126,8 @@ async function makeShareCover(cover: { file: string; focus: string; zoom: number
     const left = Math.round(Math.max(0, Math.min(w - side, ax - side * px)));
     const top = Math.round(Math.max(0, Math.min(h - side, ay - side * py)));
     base = img.extract({ left, top, width: side, height: side }).resize(OUT, OUT);
+    // 自定义缩略图：原图裁成正方形直接用，不叠加文字
+    if (plain) return base.removeAlpha().jpeg({ quality: 86, mozjpeg: true }).toBuffer();
     overlay = `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#67191f" stop-opacity="0"/><stop offset="1" stop-color="#67191f" stop-opacity=".92"/></linearGradient></defs>
       <rect width="${S}" height="${S}" fill="url(#g)"/>
       <rect x="14" y="14" width="${S - 28}" height="${S - 28}" fill="none" stroke="#dec08a" stroke-width="2" opacity=".85"/>
@@ -176,10 +178,14 @@ export function weddingPlugin(): Plugin {
       else warn(`找不到音乐「${配置.音乐.文件}」，请放进 music 文件夹`);
     }
 
-    const coverName = 照片文件(配置.首屏.照片);
+    // 分享缩略图：填了 分享.缩略图 就用那张图；否则用首屏照片自动加「囍」字和名字
+    const 自定义 = 照片文件(配置.分享.缩略图) ? 配置.分享.缩略图 : undefined;
+    const src = 自定义 ?? 配置.首屏.照片;
+    const coverName = 照片文件(src);
     const coverFile = coverName ? findFile(PHOTO_DIR, coverName) : null;
+    if (自定义 && !coverFile) warn(`找不到分享缩略图「${coverName}」，请放进 photos 文件夹`);
     try {
-      const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(配置.首屏.照片), zoom: 照片缩放(配置.首屏.照片) } : null);
+      const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(src), zoom: 照片缩放(src) } : null, !!(自定义 && coverFile));
       add('share-cover.jpg', cover, 'image/jpeg');
     } catch (e) { warn(`分享封面生成失败：${(e as Error).message}`); }
 
