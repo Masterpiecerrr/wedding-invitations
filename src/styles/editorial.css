@@ -1,19 +1,4 @@
 /* 宋式画册：圆形由布局保证；绘画、字体与留白服务于新人姓名。 */
-.doors.doors .door-copy { padding: 44px 26px; }
-.doors.doors .door { background: #831f24; }
-.doors.doors .door::before { border-color: #dec08a55; outline: none; }
-.doors.doors .door::after { opacity: .25; }
-.doors.doors .studs { display: none; }
-.doors.doors .door-houses { order: 0; margin: 0 0 35px; font: 400 12px/1.8 var(--song); letter-spacing: .32em; opacity: .85; }
-.doors.doors .knocker { order: 1; width: min(62vw, 300px, 40svh); height: auto; aspect-ratio: 1; margin: 0 0 48px; filter: none; border-radius: 50%; }
-.doors.doors .knocker-face { inset: 0; border-radius: 50%; border: 1px solid #d5b98d; outline: none; box-shadow: none; background: #f5eddb url('../assets/art/round-silk.webp') center / cover no-repeat; }
-.doors.doors .knocker-ring { inset: -7px; border: 1px solid #dec08a35; animation: none; }
-.doors.doors .cover-names { order: 2; display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%; font: 400 clamp(25px, 7.8vw, 39px)/1.7 var(--song); letter-spacing: .08em; color: #f1dfbf; }
-.doors.doors .cover-seal { display: grid; place-items: center; flex: none; width: 26px; height: 30px; padding: 5px; border: 1px solid #d9b78d; color: #e4c79e; transform: rotate(-3deg); }
-.doors.doors .cover-seal .xi { width: 100%; }
-.doors.doors .cover-seal b { font: 400 11px/1.2 var(--song); }
-.doors.doors .door-date { order: 3; margin-top: 20px; font: 400 12px/1.9 var(--song); letter-spacing: .18em; opacity: .85; }
-.doors.doors .door-hint { order: 4; margin-top: 40px; padding: 12px 5px; border: 0; border-bottom: 1px solid #dec08a60; background: none; box-shadow: none; font-size: 12px; letter-spacing: .2em; }
 
 /* 全套使用同一宋体字族，数值采用克制的衬线数字。 */
 .page.page .sec { padding-top: 76px; padding-bottom: 76px; }
@@ -113,10 +98,6 @@
 .save-dialog.save-dialog .save-dl { min-width: 180px; font-size: 13px; }
 
 @media (max-width: 560px) {
-  .doors.doors .door-copy { padding: 35px 22px; }
-  .doors.doors .knocker { margin-bottom: 40px; }
-  .doors.doors .cover-names { gap: 13px; }
-  .doors.doors .cover-seal { width: 23px; height: 27px; }
   .page.page .sec { padding-top: 62px; padding-bottom: 62px; }
   .page.page .hero { min-height: 100svh; padding-top: 42px; }
   .page.page .letter { padding-left: 14px; padding-right: 14px; }
@@ -124,14 +105,8 @@
   .page.page .letter-title { font-size: 29px; }
 }
 @media (max-width: 360px) {
-  .doors.doors .cover-names { font-size: 25px; gap: 10px; }
   .page.page .sec-title, .page.page .rsvp-card .sec-title { font-size: 24px; }
   .page.page .letter-sign { column-gap: 16px; }
 }
 @media (max-height: 620px) {
-  .doors.doors .door-houses { margin-bottom: 16px; }
-  .doors.doors .knocker { width: min(46vw, 30svh); margin-bottom: 18px; }
-  .doors.doors .cover-names { font-size: 26px; }
-  .doors.doors .door-date { margin-top: 10px; }
-  .doors.doors .door-hint { margin-top: 16px; }
 }

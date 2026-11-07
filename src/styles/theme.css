@@ -1,23 +1,7 @@
 /* 纯视觉覆盖：保留组件的状态选择器、动画时序与交互命中区域。 */
 @import './editorial.css';
 
-/* 双扇门沿用原有开启动效，改为细金线纸质喜帖。 */
-.doors.doors { width: var(--col); left: 50%; right: auto; transform: translateX(-50%); }
-.doors .door { background-color: var(--red); background-image: radial-gradient(ellipse at 50% 35%, #a735354d, transparent 65%), repeating-linear-gradient(20deg, #ffffff03 0 1px, transparent 1px 5px); box-shadow: none; }
-.doors .door::before { content: ''; position: absolute; top: 25px; bottom: 25px; border: 1px solid #dec08a80; outline: 1px solid #dec08a30; outline-offset: 7px; pointer-events: none; }
-.doors .door-l::before { left: 25px; right: 0; border-right: 0; }
-.doors .door-r::before { right: 25px; left: 0; border-left: 0; }
-.doors .door-l::after, .doors .door-r::after { background: #dec08a12; }
-.doors .studs { inset: 0; opacity: 1; background: none; }
-.doors .door-copy { padding: 54px 32px; gap: 0; }
-.doors .door-houses { order: 1; margin-top: 36px; padding: 0; background: none; box-shadow: none; font: 400 clamp(26px, 7vw, 36px)/1.6 var(--song); letter-spacing: .2em; }
-.doors .door-date { order: 2; background: none; margin-top: 14px; padding: 0; font-size: 13px; letter-spacing: .18em; }
-.doors .knocker { order: 0; flex: none; width: min(68vw, 330px); height: auto; aspect-ratio: 1; margin-top: 0; }
-.doors .knocker-face { inset: 20px; background: repeating-linear-gradient(45deg, #dec08a05 0 1px, transparent 1px 8px); box-shadow: none; border: 1px solid #dec08a80; outline: 1px dashed #dec08a60; outline-offset: -10px; }
-.doors .knocker-ring { inset: 5px; border: 1px solid #dec08a80; animation: none; }
-.doors .knocker-xi { width: 58%; color: var(--gold-light); filter: drop-shadow(0 2px 1px #67191f60); }
-.doors .knocker-face b { color: var(--gold-light); font-size: clamp(58px, 19vw, 100px); }
-.doors .door-hint { order: 3; margin-top: 40px; padding: 12px 24px; border: 1px solid #dec08a80; background: none; font-size: 13px; letter-spacing: .24em; max-width: 100%; }
+/*  */
 
 /* 首屏：圆形主视觉、双线金框、舒展的题字。 */
 .page .hero { min-height: 850px; padding: 54px 36px 35px; }
@@ -126,10 +110,6 @@
   body::after { right: calc(50% - 365px); top: 40%; }
 }
 @media (max-width: 560px) {
-  .doors .door-copy { padding: 40px 26px; }
-  .doors .door::before { top: 19px; bottom: 19px; }
-  .doors .door-l::before { left: 19px; }
-  .doors .door-r::before { right: 19px; }
   .page .hero { min-height: 100svh; padding: 42px 28px 30px; }
   .page .hero::before, .page .ending::before { inset: 19px; outline-offset: 6px; }
   .page .hero-houses { font-size: 15px; }
@@ -137,7 +117,6 @@
   .page .ending { padding-left: 30px; padding-right: 30px; }
 }
 @media (max-width: 360px) {
-  .doors .door-houses { font-size: 25px; }
   .page .hero-names { font-size: 28px; gap: 6px 10px; }
   .page .countdown { gap: 3px; padding-left: 0; padding-right: 0; }
   .page .cd-label { margin-right: 5px; }
@@ -147,9 +126,4 @@
   .page .letter-sign { column-gap: 16px; }
 }
 @media (max-height: 620px) and (orientation: landscape) {
-  .doors .door-copy { padding: 26px; }
-  .doors .knocker { width: min(42vh, 220px); }
-  .doors .door-houses { margin-top: 14px; font-size: 23px; }
-  .doors .door-date { margin-top: 5px; font-size: 11px; }
-  .doors .door-hint { margin-top: 16px; padding: 8px 18px; }
 }

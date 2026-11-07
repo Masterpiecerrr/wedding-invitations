@@ -2,7 +2,7 @@
 import { computed, ref, type Component } from 'vue';
 import { 配置, 取照片 } from '@/lib/wedding';
 import type { 模块名 } from '@/config/define';
-import OpeningDoors from '@/components/OpeningDoors.vue';
+import OpeningFan from '@/components/OpeningFan.vue';
 import HeroSection from '@/components/HeroSection.vue';
 import MarriageLetter from '@/components/MarriageLetter.vue';
 import StoryTrail from '@/components/StoryTrail.vue';
@@ -51,7 +51,7 @@ function preview(src?: string) {
 </script>
 
 <template>
-  <OpeningDoors v-if="!opened" @opening="onOpening" @opened="opened = true" />
+  <OpeningFan v-if="!opened" @opening="onOpening" @opened="opened = true" />
   <FallingPetals v-if="petals" />
   <MusicButton ref="music" />
   <div class="page" :inert="!opened || undefined">
