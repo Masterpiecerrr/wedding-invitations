@@ -19,4 +19,3 @@ export function 取照片(p: 照片 | undefined, 位置: string): 照片信息 {
 }
 
 export const 新人 = 配置.新人;
-export const 双姓 = `${新人.新郎姓}府 · ${新人.新娘姓}府`;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 开场 · 却扇：团扇遮面，轻触移开，得见新人
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { 配置, 双姓, 日期 } from '@/lib/wedding';
+import { 配置, 日期 } from '@/lib/wedding';
 import XiMark from './XiMark.vue';
 import TuanFan from './TuanFan.vue';
 
@@ -23,8 +23,6 @@ onBeforeUnmount(() => document.body.classList.remove('is-locked'));
   <div class="cover" :data-state="state" role="dialog" aria-modal="true" aria-label="请柬封面" @click="open">
     <div class="cover-bg" aria-hidden="true" />
     <div class="cover-body">
-      <p class="cover-houses cover-text">{{ 双姓 }}</p>
-
       <button class="fan" type="button" :aria-label="`开启请柬：${配置.新人.新郎}与${配置.新人.新娘}的婚礼`" @click.stop="open">
         <span class="fan-sway"><TuanFan /></span>
       </button>
@@ -53,7 +51,6 @@ onBeforeUnmount(() => document.body.classList.remove('is-locked'));
 .cover-text { transition: opacity .4s ease; }
 .cover[data-state='opening'] .cover-text { opacity: 0; }
 
-.cover-houses { margin-bottom: 26px; font: 400 12px/1.8 var(--song); letter-spacing: .32em; opacity: .85; }
 
 /* ───── 团扇 ───── */
 .fan { position: relative; width: var(--face); height: calc(var(--face) * 1.82); padding: 0; border: 0; background: none; flex: none; transition: transform 1.35s cubic-bezier(.55, .05, .3, 1), opacity .8s ease .5s; }
@@ -78,7 +75,6 @@ onBeforeUnmount(() => document.body.classList.remove('is-locked'));
 }
 @media (max-height: 620px) {
   .cover { --face: min(46vw, 22svh); }
-  .cover-houses { margin-bottom: 12px; }
   .cover-hint { margin-top: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {

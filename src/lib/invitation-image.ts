@@ -1,4 +1,4 @@
-import { 配置, 日期, 农历, 取照片, 双姓 } from './wedding';
+import { 配置, 日期, 农历, 取照片 } from './wedding';
 import raw from './xi.svg?raw';
 import silkArt from '../assets/art/round-silk.webp';
 
@@ -49,7 +49,6 @@ export async function 生成请柬图片(): Promise<Blob> {
     g.beginPath(); g.moveTo((W - width) / 2, y); g.lineTo((W + width) / 2, y); g.stroke();
   };
 
-  text(双姓, 142, 28, GOLD_L, 7);
   const cy = 443, r = 235;
   g.save(); g.beginPath(); g.arc(W / 2, cy, r, 0, Math.PI * 2); g.clip();
   const [fx, fy] = cover.焦点.split(/\s+/).map(v => parseFloat(v) / 100);

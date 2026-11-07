@@ -9,7 +9,7 @@ export type 照片 = string | { 文件: string; 焦点?: string };
 export type 模块名 = '婚书' | '故事' | '问答' | '相册' | '流程' | '时间地点' | '回执' | '结尾';
 
 export interface 婚礼配置 {
-  新人: { 新郎: string; 新娘: string; 新郎姓: string; 新娘姓: string };
+  新人: { 新郎: string; 新娘: string };
   婚礼: {
     日期: string;
     迎宾: string;

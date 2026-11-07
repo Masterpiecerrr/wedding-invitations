@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { 配置, 双姓, 日期, 农历, 取照片 } from '@/lib/wedding';
+import { 配置, 日期, 农历, 取照片 } from '@/lib/wedding';
 import PhotoFrame from './PhotoFrame.vue';
 import XiMark from './XiMark.vue';
 
@@ -25,7 +25,6 @@ const left = computed(() => {
 
 <template>
   <header class="hero on-red">
-    <p class="hero-houses">{{ 双姓 }}</p>
     <div class="moon">
       <PhotoFrame class="moon-photo" :photo="cover" ratio="1 / 1" :alt="`${配置.新人.新郎}与${配置.新人.新娘}`" eager previewable @preview="$emit('preview')" />
       <XiMark class="moon-xi" />
