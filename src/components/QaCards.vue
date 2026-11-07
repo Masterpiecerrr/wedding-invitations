@@ -22,10 +22,11 @@ const flipped = reactive<Record<number, boolean>>({});
 
 <style scoped>
 .qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 34px; }
+.qa-grid li { display: grid; }
 .qa-grid[data-odd] li:last-child { grid-column: 1 / -1; }
-.card { position: relative; display: block; width: 100%; min-height: 150px; padding: 0; border: 0; background: none; perspective: 900px; }
+.card { position: relative; display: grid; width: 100%; min-height: 150px; padding: 0; border: 0; background: none; perspective: 900px; }
 .qa-grid[data-odd] li:last-child .card { min-height: 120px; }
-.face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 14px; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .6s cubic-bezier(.3, .7, .3, 1); }
+.face { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 18px 14px; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .6s cubic-bezier(.3, .7, .3, 1); }
 .face i { font: normal 13px/1 var(--brush); display: grid; place-items: center; width: 26px; height: 26px; border-radius: 2px; }
 .front { background: var(--red); color: var(--cream); box-shadow: inset 0 0 0 5px var(--red), inset 0 0 0 6px #c39a52aa; }
 .front i { background: var(--gold-light); color: var(--red); }
