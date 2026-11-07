@@ -58,7 +58,7 @@ onBeforeUnmount(() => io?.disconnect());
 </template>
 
 <style scoped>
-.story { padding-left: 0; padding-right: 0; padding-bottom: 0; background: #faeee3; }
+.story { padding-left: 0; padding-right: 0; padding-bottom: 0; }
 .story .sec-title, .story .sec-sub { padding: 0 26px; }
 
 /* 长卷：宽度铺满，按原图 941×1672 的比例 */
