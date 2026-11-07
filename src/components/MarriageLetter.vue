@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { 配置, 日期, 取照片, 看位置 } from '@/lib/wedding';
 import PhotoFrame from './PhotoFrame.vue';
+import NameText from './NameText.vue';
 
 defineEmits<{ preview: [src: string] }>();
 const pic = 取照片(配置.婚书.配图, '婚书.配图');
@@ -14,8 +15,8 @@ const seal = Array.from(配置.婚书.印章.trim());
       <p class="letter-body">{{ 配置.婚书.正文 }}</p>
       <footer class="letter-sign">
         <dl>
-          <div><dt>新郎</dt><dd>{{ 配置.新人.新郎 }}</dd></div>
-          <div><dt>新娘</dt><dd>{{ 配置.新人.新娘 }}</dd></div>
+          <div><dt>新郎</dt><dd><NameText :name="配置.新人.新郎" /></dd></div>
+          <div><dt>新娘</dt><dd><NameText :name="配置.新人.新娘" /></dd></div>
         </dl>
         <p class="letter-date">{{ 日期.中文年月日 }}</p>
         <span v-if="seal.length" class="seal" :data-count="seal.length" aria-hidden="true"><b v-for="(c, i) in seal" :key="i">{{ c }}</b></span>

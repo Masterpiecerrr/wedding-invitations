@@ -4,6 +4,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { 配置, 日期 } from '@/lib/wedding';
 import XiMark from './XiMark.vue';
 import TuanFan from './TuanFan.vue';
+import NameText from './NameText.vue';
 
 const emit = defineEmits<{ opening: []; opened: [] }>();
 const state = ref<'closed' | 'opening'>('closed');
@@ -28,9 +29,9 @@ onBeforeUnmount(() => document.body.classList.remove('is-locked'));
       </button>
 
       <h1 class="cover-names cover-text">
-        <span>{{ 配置.新人.新郎 }}</span>
+        <NameText :name="配置.新人.新郎" />
         <span class="cover-seal" aria-hidden="true"><XiMark v-if="配置.开场.题字 === '囍'" /><b v-else>{{ 配置.开场.题字 }}</b></span>
-        <span>{{ 配置.新人.新娘 }}</span>
+        <NameText :name="配置.新人.新娘" />
       </h1>
       <p class="cover-date cover-text">{{ 日期.中文年月日 }}</p>
       <p class="cover-hint cover-text">{{ 配置.开场.提示 }}</p>

@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { 配置, 日期, 农历, 取照片 } from '@/lib/wedding';
 import PhotoFrame from './PhotoFrame.vue';
 import XiMark from './XiMark.vue';
+import NameText from './NameText.vue';
 
 defineEmits<{ preview: [] }>();
 const cover = 取照片(配置.首屏.照片, '首屏.照片');
@@ -30,7 +31,7 @@ const left = computed(() => {
       <XiMark class="moon-xi" />
     </div>
     <p class="hero-lead">{{ 配置.首屏.上款 }}</p>
-    <h1 class="hero-names"><span>{{ 配置.新人.新郎 }}</span><i aria-label="与">&</i><span>{{ 配置.新人.新娘 }}</span></h1>
+    <h1 class="hero-names"><NameText :name="配置.新人.新郎" /><i aria-label="与">&</i><NameText :name="配置.新人.新娘" /></h1>
     <p class="hero-quote">{{ 配置.首屏.引语 }}</p>
     <p class="hero-date"><time :datetime="配置.婚礼.日期">{{ 日期.中文年月日 }}</time><br /><small>{{ 农历 }}　{{ 日期.星期 }}</small></p>
     <p v-if="left" class="countdown" aria-label="距离婚礼">

@@ -3,7 +3,7 @@
  *  - photos/ 里的原图自动转正、缩小、压缩成 WebP
  *  - 字体按页面实际用到的字自动裁剪，只留几十 KB
  *  - 农历按日期自动推算
- *  - 微信分享封面（share-cover.png，1254×1254）按封面照和姓名自动生成
+ *  - 微信分享封面（share-cover.jpg，600×600，约 60KB，微信抓图更稳）按封面照和姓名自动生成
  *  - 页面标题、分享描述写进 HTML
  */
 import fs from 'node:fs';
@@ -96,7 +96,7 @@ function svgEscape(s: string) { return s.replace(/&/g, '&amp;').replace(/</g, '&
 /** 微信分享封面：600×600 */
 async function makeShareCover(cover: { file: string; focus: string; zoom: number } | null): Promise<Buffer> {
   const S = 600; // 画布坐标按 600 设计，输出放大到 OUT
-  const OUT = 1254;
+  const OUT = 600; // 微信卡片只显示小缩略图；图太大（原先 3.5MB）微信会抓取超时、时有时无
   const brush = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'MaShanZheng-Regular.ttf')).buffer as ArrayBuffer);
   const song = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'NotoSerifSC-Regular-GB.ttf')).buffer as ArrayBuffer);
   const { 新郎, 新娘 } = 配置.新人;
@@ -141,7 +141,7 @@ async function makeShareCover(cover: { file: string; focus: string; zoom: number
       ${centered(song, `${d.点分}  ${svgEscape(配置.婚礼.酒店)}`, 492, 26, '#dec08a', 2)}`;
   }
   const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${OUT}" height="${OUT}" viewBox="0 0 ${S} ${S}">${overlay}</svg>`);
-  return base.composite([{ input: svg }]).removeAlpha().png({ compressionLevel: 9 }).toBuffer();
+  return base.composite([{ input: svg }]).removeAlpha().jpeg({ quality: 86, mozjpeg: true }).toBuffer();
 }
 
 export function weddingPlugin(): Plugin {
@@ -180,7 +180,7 @@ export function weddingPlugin(): Plugin {
     const coverFile = coverName ? findFile(PHOTO_DIR, coverName) : null;
     try {
       const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(配置.首屏.照片), zoom: 照片缩放(配置.首屏.照片) } : null);
-      add('share-cover.png', cover, 'image/png');
+      add('share-cover.jpg', cover, 'image/jpeg');
     } catch (e) { warn(`分享封面生成失败：${(e as Error).message}`); }
 
     const fonts = { brush: '', song: '' };
@@ -245,7 +245,7 @@ export function weddingPlugin(): Plugin {
       server.watcher.on('add', onChange).on('change', onChange).on('unlink', onChange);
       server.middlewares.use(async (req, res, next) => {
         const url = decodeURIComponent((req.url ?? '').split('?')[0]);
-        if (!/^\/(photos|music|fonts)\/|^\/share-cover\.png$/.test(url)) return next();
+        if (!/^\/(photos|music|fonts)\/|^\/share-cover\.jpg$/.test(url)) return next();
         await ensure();
         const a = assets.get(url);
         if (!a) { res.statusCode = 404; return res.end(); }
