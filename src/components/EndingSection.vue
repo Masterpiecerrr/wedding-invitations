@@ -46,7 +46,7 @@ function sweets(e: MouseEvent) {
     </div>
     <button class="btn btn-gold end-sweets" type="button" @click="sweets">🍬 {{ 配置.结尾.喜糖按钮 }}</button>
     <div ref="fanEl" class="end-fan" :data-in="fanIn || undefined">
-      <span class="end-fan-sway"><TuanFan><span class="end-seal">{{ 配置.结尾.印章 }}</span></TuanFan></span>
+      <span class="end-fan-sway"><TuanFan /></span>
     </div>
     <p class="end-sign">{{ 配置.新人.新郎 }} & {{ 配置.新人.新娘 }}　{{ 日期.点分 }}</p>
   </footer>
@@ -67,8 +67,6 @@ function sweets(e: MouseEvent) {
 .end-fan[data-in] { opacity: 1; transform: none; }
 .end-fan-sway { display: block; transform-origin: 50% 78%; animation: end-sway 6s ease-in-out 1.6s infinite; }
 @keyframes end-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(-1deg); } }
-.end-seal { display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid #b8262c; border-radius: 3px; color: #b8262c; font: 400 17px/1.05 var(--song); letter-spacing: .02em; writing-mode: vertical-rl; background: #b8262c10; opacity: 0; transform: rotate(-6deg) scale(1.6); transition: opacity .35s ease 1.5s, transform .35s cubic-bezier(.3, 1.6, .5, 1) 1.5s; }
-.end-fan[data-in] .end-seal { opacity: .92; transform: rotate(-6deg) scale(1); }
-@media (prefers-reduced-motion: reduce) { .end-fan, .end-seal { transition: none; } .end-fan-sway { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .end-fan { transition: none; } .end-fan-sway { animation: none; } }
 .end-sign { margin-top: 26px; color: #e9cf96aa; font-size: 12.5px; letter-spacing: .2em; }
 </style>
