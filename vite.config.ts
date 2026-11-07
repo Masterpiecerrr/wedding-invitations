@@ -12,5 +12,5 @@ export default defineConfig({
       '@config': fileURLToPath(new URL('./wedding.config.ts', import.meta.url)),
     },
   },
-  build: { outDir: 'dist/client', emptyOutDir: true, assetsInlineLimit: 0 },
+  build: { outDir: 'dist', emptyOutDir: true, assetsInlineLimit: 0 },
 });
