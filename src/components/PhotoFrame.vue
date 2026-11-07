@@ -10,7 +10,7 @@ const 提示 = computed(() => props.photo.文件 ? `没找到「${props.photo.�
 
 <template>
   <figure class="pf" :style="{ aspectRatio: aspect }" :data-empty="!photo.src || undefined">
-    <img v-if="photo.src" :src="photo.src" :alt="alt" :loading="eager ? 'eager' : 'lazy'" decoding="async" :style="{ objectPosition: photo.焦点 }" draggable="false" />
+    <img v-if="photo.src" :src="photo.src" :alt="alt" :loading="eager ? 'eager' : 'lazy'" decoding="async" :style="{ objectPosition: photo.焦点, transform: photo.缩放 > 1 ? `scale(${photo.缩放})` : undefined, transformOrigin: photo.焦点 }" draggable="false" />
     <div v-else class="pf-empty" aria-hidden="true">
       <svg viewBox="0 0 40 40"><rect x="4" y="4" width="32" height="32" rx="2" fill="none" stroke="currentColor" stroke-width="1.4" /><circle cx="15" cy="15" r="3.5" fill="currentColor" /><path d="m6 31 10-10 6 6 4-4 8 8" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
       <span>{{ 提示 }}</span>

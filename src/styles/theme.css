@@ -35,11 +35,6 @@
 .page .letter-pic, .page .ch-pic, .page .shot, .page .venue-pic { box-shadow: 0 0 0 6px var(--paper), 0 0 0 7px #b6976655, 0 12px 24px #533b300c; }
 .page .pf-empty { color: #9a7954; background: radial-gradient(ellipse at 45% 30%, #fff9ed90, transparent 70%), repeating-linear-gradient(45deg, #8b4b1903 0 1px, transparent 1px 4px), var(--paper-deep); }
 .page .pf-tag { background: #533b30b3; border: 1px solid #dec08a40; border-radius: 0; font-size: 10px; letter-spacing: .05em; }
-.page .ch-time { color: #967345; font-size: 12px; }
-.page .ch-title { font: 400 25px/1.6 var(--song); margin-top: 7px; }
-.page .ch-text { font-size: 14px; line-height: 2.1; color: var(--ink-soft); }
-.page .silk { width: 1px; background: #b6976680; box-shadow: none; }
-.page .chapter::before { border-width: 1px; }
 
 /* 保留问答翻牌与相册滑动，统一纸卡外观。 */
 .page .qa-grid { gap: 16px; }

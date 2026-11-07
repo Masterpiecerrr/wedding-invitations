@@ -15,7 +15,7 @@ import subsetFont from 'subset-font';
 import opentype from 'opentype.js';
 import type { Plugin, ViteDevServer } from 'vite';
 import 配置 from '../wedding.config';
-import { 推算日期, 推算农历, 照片文件, 照片焦点, type 照片 } from '../src/config/define';
+import { 推算日期, 推算农历, 照片文件, 照片焦点, 照片缩放, type 照片 } from '../src/config/define';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const PHOTO_DIR = path.join(ROOT, 'photos');
@@ -94,7 +94,7 @@ function collectText(): string {
 function svgEscape(s: string) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
 /** 微信分享封面：600×600 */
-async function makeShareCover(cover: { file: string; focus: string } | null): Promise<Buffer> {
+async function makeShareCover(cover: { file: string; focus: string; zoom: number } | null): Promise<Buffer> {
   const S = 600; // 画布坐标按 600 设计，输出放大到 OUT
   const OUT = 1254;
   const brush = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'MaShanZheng-Regular.ttf')).buffer as ArrayBuffer);
@@ -119,9 +119,12 @@ async function makeShareCover(cover: { file: string; focus: string } | null): Pr
     const img = sharp(cover.file).rotate();
     const meta = await sharp(await img.clone().toBuffer()).metadata();
     const [fx, fy] = cover.focus.split(/\s+/).map((v) => parseFloat(v) / 100);
-    const w = meta.width ?? S, h = meta.height ?? S, side = Math.min(w, h);
-    const left = Math.round(Math.max(0, Math.min(w - side, w * (fx || 0.5) - side / 2)));
-    const top = Math.round(Math.max(0, Math.min(h - side, h * (fy || 0.5) - side / 2)));
+    // 与网页一致：先按「焦点」取正方形（同 CSS object-position），再以焦点为中心按「缩放」放大
+    const w = meta.width ?? S, h = meta.height ?? S, full = Math.min(w, h), side = Math.round(full / cover.zoom);
+    const px = Number.isFinite(fx) ? fx : 0.5, py = Number.isFinite(fy) ? fy : 0.5;
+    const ax = (w - full) * px + full * px, ay = (h - full) * py + full * py;
+    const left = Math.round(Math.max(0, Math.min(w - side, ax - side * px)));
+    const top = Math.round(Math.max(0, Math.min(h - side, ay - side * py)));
     base = img.extract({ left, top, width: side, height: side }).resize(OUT, OUT);
     overlay = `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#67191f" stop-opacity="0"/><stop offset="1" stop-color="#67191f" stop-opacity=".92"/></linearGradient></defs>
       <rect width="${S}" height="${S}" fill="url(#g)"/>
@@ -176,7 +179,7 @@ export function weddingPlugin(): Plugin {
     const coverName = 照片文件(配置.首屏.照片);
     const coverFile = coverName ? findFile(PHOTO_DIR, coverName) : null;
     try {
-      const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(配置.首屏.照片) } : null);
+      const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(配置.首屏.照片), zoom: 照片缩放(配置.首屏.照片) } : null);
       add('share-cover.png', cover, 'image/png');
     } catch (e) { warn(`分享封面生成失败：${(e as Error).message}`); }
 

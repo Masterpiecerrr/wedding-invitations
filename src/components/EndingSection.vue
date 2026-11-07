@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { emojiBlast } from 'emoji-blast';
 import { 配置, 日期 } from '@/lib/wedding';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { 喜糖数, 读取喜糖数, 撒一把 } from '@/lib/sweets';
 import XiMark from './XiMark.vue';
 import TuanFan from './TuanFan.vue';
 
-// 团扇归来：滚动到结尾时，开场移开的团扇缓缓落回，盖上「礼成」印
+// 团扇归来：滚动到结尾时，开场移开的团扇缓缓落回
 const fanEl = ref<HTMLElement | null>(null);
 const fanIn = ref(false);
 let io: IntersectionObserver | null = null;
@@ -16,6 +17,22 @@ onMounted(() => {
 });
 onBeforeUnmount(() => io?.disconnect());
 
+// 全场喜糖计数：结尾附近才去读，接口不可用就不显示
+const endEl = ref<HTMLElement | null>(null);
+let countIo: IntersectionObserver | null = null;
+onMounted(() => {
+  if (!配置.结尾.喜糖计数 || !endEl.value) return;
+  if (!('IntersectionObserver' in window)) { void 读取喜糖数(); return; }
+  countIo = new IntersectionObserver(([e]) => { if (e.isIntersecting) { void 读取喜糖数(); countIo?.disconnect(); } }, { rootMargin: '600px 0px' });
+  countIo.observe(endEl.value);
+});
+onBeforeUnmount(() => countIo?.disconnect());
+const 计数文字 = computed(() => {
+  if (喜糖数.value === null || !配置.结尾.喜糖计数) return null;
+  const [前, 后 = ''] = 配置.结尾.喜糖计数.split('{n}');
+  return { 前, 数: 喜糖数.value.toLocaleString('zh-CN'), 后 };
+});
+
 const 父母 = 配置.父母;
 const 两家 = [
   [父母.新郎父亲, 父母.新郎母亲].filter(Boolean).join('　'),
@@ -23,6 +40,7 @@ const 两家 = [
 ].filter(Boolean);
 
 function sweets(e: MouseEvent) {
+  if (配置.结尾.喜糖计数) 撒一把();
   const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
   const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   emojiBlast({
@@ -36,7 +54,7 @@ function sweets(e: MouseEvent) {
 </script>
 
 <template>
-  <footer class="ending on-red">
+  <footer ref="endEl" class="ending on-red">
     <XiMark class="end-xi" />
     <h2 class="end-big">{{ 配置.结尾.大字 }}</h2>
     <p class="end-text">{{ 配置.结尾.正文 }}</p>
@@ -45,6 +63,9 @@ function sweets(e: MouseEvent) {
       <span>{{ 配置.结尾.落款 }}</span>
     </div>
     <button class="btn btn-gold end-sweets" type="button" @click="sweets">🍬 {{ 配置.结尾.喜糖按钮 }}</button>
+    <p class="end-count" aria-live="polite" :data-on="计数文字 ? '' : undefined">
+      <template v-if="计数文字">{{ 计数文字.前 }}<b :key="计数文字.数">{{ 计数文字.数 }}</b>{{ 计数文字.后 }}</template>
+    </p>
     <div ref="fanEl" class="end-fan" :data-in="fanIn || undefined">
       <span class="end-fan-sway"><TuanFan /></span>
     </div>
@@ -63,10 +84,14 @@ function sweets(e: MouseEvent) {
 .end-parents:has(p + p) { display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 22px; }
 .end-parents:has(p + p) span { grid-column: 2; grid-row: 1 / 3; }
 .end-sweets { margin-top: 34px; }
+.end-count { min-height: 1.9em; margin-top: 14px; color: #e9cf96cc; font-size: 13px; letter-spacing: .14em; opacity: 0; transition: opacity .6s ease; }
+.end-count[data-on] { opacity: 1; }
+.end-count b { display: inline-block; margin: 0 .3em; color: var(--gold-light); font: 400 19px/1 var(--song); letter-spacing: .02em; animation: bump .45s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes bump { from { transform: scale(1.35); } to { transform: scale(1); } }
 .end-fan { --face: 132px; width: var(--face); margin: 46px auto 0; opacity: 0; transform: translate(-70px, -60px) rotate(-30deg) scale(.85); transition: transform 1.6s cubic-bezier(.2, .7, .25, 1), opacity 1s ease; }
 .end-fan[data-in] { opacity: 1; transform: none; }
 .end-fan-sway { display: block; transform-origin: 50% 78%; animation: end-sway 6s ease-in-out 1.6s infinite; }
 @keyframes end-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(-1deg); } }
-@media (prefers-reduced-motion: reduce) { .end-fan { transition: none; } .end-fan-sway { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .end-fan { transition: none; } .end-fan-sway, .end-count b { animation: none; } }
 .end-sign { margin-top: 26px; color: #e9cf96aa; font-size: 12.5px; letter-spacing: .2em; }
 </style>

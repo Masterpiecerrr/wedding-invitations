@@ -38,13 +38,6 @@
 .page.page .letter-pic, .page.page .ch-pic, .page.page .shot, .page.page .venue-pic { box-shadow: 0 0 0 6px #fffaf1, 0 0 0 7px #b6976630; }
 
 /* 故事与相册以内容为主，不重复堆叠花枝。 */
-.page.page .trail { margin-top: 42px; }
-.page.page .ch-time { font: 12px/1.8 var(--song); letter-spacing: .15em; color: #967345; }
-.page.page .ch-title { font: 400 23px/1.8 var(--song); letter-spacing: .14em; margin-top: 8px; }
-.page.page .ch-text { font: 400 14px/2.1 var(--song); color: var(--ink-soft); }
-.page.page .chapter { padding-bottom: 48px; }
-.page.page .chapter:last-child { padding-bottom: 0; }
-.page.page .silk { background: #a6433e50; width: 1px; box-shadow: none; }
 .page.page .qa-grid { gap: 14px; }
 .page.page .front { background: #efe6d7; color: var(--ink); box-shadow: inset 0 0 0 1px #b6976640; }
 .page.page .front i { border: 1px solid #a6433e60; color: var(--red); background: none; font: 11px/1 var(--song); }
