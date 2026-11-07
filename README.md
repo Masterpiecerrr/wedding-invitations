@@ -95,6 +95,13 @@ npm run dev      # 浏览器打开 http://localhost:5173 ，改了配置或照�
 - 数据库：**D1 SQL 数据库** 列表页顶部有当天「已读取行 / 5M」「已写入行 / 100k」；点进 `wedding-sweets` 的 **概述** 可看每天的曲线。
 - 接口调用次数：**Workers 和 Pages** 概览页可看当天请求数（每天上限 10 万次，只有撒糖和读数会计入，打开请柬不计）。
 
+## 九、正式发出前的清理清单
+
+1. **计数清零**：见上面第八节，执行 `UPDATE sweets SET count = 0;`，再用 `SELECT count FROM sweets;` 确认是 0。测试地址和正式网址共用同一个数据库，所以最好在最后一次测试完之后再清；发出去之后自己别再点「撒喜糖」。
+2. **删测试分支**（可选，不影响正式站）：GitHub 仓库 → **Branches**，删掉 `liyi`、`quexian`、`yidian`、`xitang`、`gh-pages` 等用完的分支。它们对应的 `xxx.wedding-invitations-9uy.pages.dev` 预览地址也会随之失效。
+3. **清旧预览部署**（可选）：Cloudflare → **Workers 和 Pages** → `wedding-invitations` → **部署**，把不用的预览部署删掉；也可以把以前试验用的 workers.dev 小项目一并删除。
+4. **最后过一遍**：用手机扫二维码打开正式网址，检查音乐、照片、文字、导航、回执链接；再用微信扫码转发一次，确认分享卡片是最新的（改了卡片内容后，在网址后加 `?v=数字` 换一个新数字，微信才会重新抓取）。
+
 ---
 
 字体：马善政毛笔楷书、思源宋体，均为 SIL Open Font License 授权（见 `fonts/`），打包时会按页面实际用到的字自动裁剪。
