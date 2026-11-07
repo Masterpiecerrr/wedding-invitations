@@ -12,15 +12,13 @@
     <meta property="og:title" content="__TITLE__" />
     <meta property="og:description" content="__DESC__" />
     <meta property="og:url" content="__SITE__/" />
-    <meta property="og:image" content="__SITE__/share-cover.jpg" />
-    <meta property="og:image:width" content="600" />
-    <meta property="og:image:height" content="600" />
-    <meta itemprop="name" content="__TITLE__" />
-    <meta itemprop="image" content="__SITE__/share-cover.jpg" />
+    <meta property="og:site_name" content="__SITE_NAME__" />
+    <meta property="og:image" content="__SITE__/share-cover.png" />
+    <meta property="og:image:alt" content="__IMAGE_ALT__" />
+    <meta property="og:image:width" content="1254" />
+    <meta property="og:image:height" content="1254" />
   </head>
   <body>
-    <!-- 微信抓取分享缩略图时会参考页面里的第一张大图 -->
-    <div style="display:none"><img src="./share-cover.jpg" alt="" /></div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

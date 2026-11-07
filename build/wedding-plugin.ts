@@ -3,7 +3,7 @@
  *  - photos/ 里的原图自动转正、缩小、压缩成 WebP
  *  - 字体按页面实际用到的字自动裁剪，只留几十 KB
  *  - 农历按日期自动推算
- *  - 微信分享封面（share-cover.jpg）按封面照和姓名自动生成
+ *  - 微信分享封面（share-cover.png，1254×1254）按封面照和姓名自动生成
  *  - 页面标题、分享描述写进 HTML
  */
 import fs from 'node:fs';
@@ -95,7 +95,8 @@ function svgEscape(s: string) { return s.replace(/&/g, '&amp;').replace(/</g, '&
 
 /** 微信分享封面：600×600 */
 async function makeShareCover(cover: { file: string; focus: string } | null): Promise<Buffer> {
-  const S = 600;
+  const S = 600; // 画布坐标按 600 设计，输出放大到 OUT
+  const OUT = 1254;
   const brush = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'MaShanZheng-Regular.ttf')).buffer as ArrayBuffer);
   const song = opentype.parse(fs.readFileSync(path.join(FONT_DIR, 'NotoSerifSC-Regular-GB.ttf')).buffer as ArrayBuffer);
   const { 新郎, 新娘 } = 配置.新人;
@@ -121,7 +122,7 @@ async function makeShareCover(cover: { file: string; focus: string } | null): Pr
     const w = meta.width ?? S, h = meta.height ?? S, side = Math.min(w, h);
     const left = Math.round(Math.max(0, Math.min(w - side, w * (fx || 0.5) - side / 2)));
     const top = Math.round(Math.max(0, Math.min(h - side, h * (fy || 0.5) - side / 2)));
-    base = img.extract({ left, top, width: side, height: side }).resize(S, S);
+    base = img.extract({ left, top, width: side, height: side }).resize(OUT, OUT);
     overlay = `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#67191f" stop-opacity="0"/><stop offset="1" stop-color="#67191f" stop-opacity=".92"/></linearGradient></defs>
       <rect width="${S}" height="${S}" fill="url(#g)"/>
       <rect x="14" y="14" width="${S - 28}" height="${S - 28}" fill="none" stroke="#dec08a" stroke-width="2" opacity=".85"/>
@@ -129,15 +130,15 @@ async function makeShareCover(cover: { file: string; focus: string } | null): Pr
       ${centered(song, names, 518, 56, '#faf4e8', 4)}
       ${centered(song, d.点分, 562, 24, '#dec08a', 3)}`;
   } else {
-    base = sharp({ create: { width: S, height: S, channels: 3, background: '#831f24' } });
+    base = sharp({ create: { width: OUT, height: OUT, channels: 3, background: '#831f24' } });
     overlay = `<rect x="18" y="18" width="${S - 36}" height="${S - 36}" fill="none" stroke="#dec08a" stroke-width="2"/>
       <rect x="28" y="28" width="${S - 56}" height="${S - 56}" fill="none" stroke="#dec08a" stroke-width="1" opacity=".6"/>
       ${xiAt(S / 2 - 110, 92, 220, '#dec08a')}
       ${centered(song, names, 430, 64, '#faf4e8', 6)}
       ${centered(song, `${d.点分}  ${svgEscape(配置.婚礼.酒店)}`, 492, 26, '#dec08a', 2)}`;
   }
-  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}">${overlay}</svg>`);
-  return base.composite([{ input: svg }]).jpeg({ quality: 86 }).toBuffer();
+  const svg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${OUT}" height="${OUT}" viewBox="0 0 ${S} ${S}">${overlay}</svg>`);
+  return base.composite([{ input: svg }]).removeAlpha().png({ compressionLevel: 9 }).toBuffer();
 }
 
 export function weddingPlugin(): Plugin {
@@ -176,7 +177,7 @@ export function weddingPlugin(): Plugin {
     const coverFile = coverName ? findFile(PHOTO_DIR, coverName) : null;
     try {
       const cover = await makeShareCover(coverFile ? { file: coverFile, focus: 照片焦点(配置.首屏.照片) } : null);
-      add('share-cover.jpg', cover, 'image/jpeg');
+      add('share-cover.png', cover, 'image/png');
     } catch (e) { warn(`分享封面生成失败：${(e as Error).message}`); }
 
     const fonts = { brush: '', song: '' };
@@ -222,6 +223,8 @@ export function weddingPlugin(): Plugin {
         .replaceAll('__TITLE__', esc(title))
         .replaceAll('__DESC__', esc(desc))
         .replaceAll('__SITE__', esc(site))
+        .replaceAll('__SITE_NAME__', esc(`${新郎} & ${新娘}的婚礼`))
+        .replaceAll('__IMAGE_ALT__', esc(`${新郎}与${新娘}的婚礼请柬封面`))
         .replace('</head>', `<style>${fontCss}</style><link rel="preload" href="${manifest.fonts.brush}" as="font" crossorigin><link rel="preload" href="${manifest.fonts.song}" as="font" crossorigin></head>`);
     },
     configureServer(server: ViteDevServer) {
@@ -239,7 +242,7 @@ export function weddingPlugin(): Plugin {
       server.watcher.on('add', onChange).on('change', onChange).on('unlink', onChange);
       server.middlewares.use(async (req, res, next) => {
         const url = decodeURIComponent((req.url ?? '').split('?')[0]);
-        if (!/^\/(photos|music|fonts)\/|^\/share-cover\.jpg$/.test(url)) return next();
+        if (!/^\/(photos|music|fonts)\/|^\/share-cover\.png$/.test(url)) return next();
         await ensure();
         const a = assets.get(url);
         if (!a) { res.statusCode = 404; return res.end(); }
