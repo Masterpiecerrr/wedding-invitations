@@ -4,7 +4,7 @@
  */
 
 /** 照片：直接写 photos 文件夹里的文件名；需要调整裁剪中心时写成 { 文件, 焦点 }。留空 '' 表示还没选。 */
-export type 照片 = string | { 文件: string; 焦点?: string };
+export type 照片 = string | { 文件: string; 焦点?: string; 缩放?: number };
 
 export type 模块名 = '婚书' | '故事' | '问答' | '相册' | '流程' | '时间地点' | '回执' | '结尾';
 
@@ -82,6 +82,10 @@ export function 推算农历(日期: string): string {
 export function 照片文件(p: 照片 | undefined): string {
   if (!p) return '';
   return (typeof p === 'string' ? p : p.文件).trim();
+}
+export function 照片缩放(p: 照片 | undefined): number {
+  const z = p && typeof p === 'object' ? Number(p.缩放) : 1;
+  return Number.isFinite(z) && z >= 1 ? z : 1;
 }
 export function 照片焦点(p: 照片 | undefined): string {
   return (p && typeof p === 'object' && p.焦点) || '50% 50%';
