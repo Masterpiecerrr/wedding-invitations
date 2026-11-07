@@ -62,7 +62,8 @@ onBeforeUnmount(() => io?.disconnect());
 .story .sec-title, .story .sec-sub { padding: 0 26px; }
 
 /* 长卷：宽度铺满，按原图 941×1672 的比例 */
-.scroll { position: relative; margin-top: 18px; aspect-ratio: 941 / 1672; container-type: inline-size; background: url('../assets/art/ribbon-scroll.webp') center / 100% 100% no-repeat; -webkit-mask-image: linear-gradient(transparent, #000 3%); mask-image: linear-gradient(transparent, #000 3%); }
+.scroll { position: relative; margin-top: 18px; aspect-ratio: 941 / 1672; container-type: inline-size; }
+.scroll::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: url('../assets/art/ribbon-scroll.webp') center / 100% 100% no-repeat; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3%, #000 93%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 3%, #000 93%, transparent); }
 
 .rites { position: absolute; display: flex; flex-direction: column; gap: 3.6cqw; }
 .rites-top { left: 47%; right: 4%; top: 4.5%; }
