@@ -2,6 +2,7 @@
 import { 配置, 日期, 取照片, 看位置 } from '@/lib/wedding';
 import PhotoFrame from './PhotoFrame.vue';
 import NameText from './NameText.vue';
+import marriageArt from '@/assets/art/marriage-letter.webp';
 
 defineEmits<{ preview: [src: string] }>();
 const pic = 取照片(配置.婚书.配图, '婚书.配图');
@@ -11,6 +12,7 @@ const seal = Array.from(配置.婚书.印章.trim());
 <template>
   <section class="sec paper letter-sec" aria-labelledby="letter-title">
     <article class="letter">
+      <img class="marriage-art" :src="marriageArt" alt="婚書。新郎石天宇，新娘禹露。二〇二六年十二月二十日。" width="964" height="1632" />
       <h2 id="letter-title" class="letter-title">{{ 配置.婚书.标题 }}</h2>
       <p class="letter-body">{{ 配置.婚书.正文 }}</p>
       <footer class="letter-sign">

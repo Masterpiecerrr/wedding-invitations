@@ -1,0 +1,17 @@
+/* 经预览确认的楷体、朱红纸纹与书法婚书。 */
+:root { --paper: #f8eae0; --paper-deep: #eed8ca; }
+body, body * { font-family: var(--song) !important; }
+body { background-color: #e8d4c8; }
+.page.page { background: #f8eae0; }
+.page.page .hero { background: radial-gradient(ellipse at 50% 12%, #f9e2d3, transparent 70%), linear-gradient(#fbf0e5, #f8eae0); }
+.page.page .letter-sec, .page.page .story { background: transparent; }
+.page.page .letter-sec { padding-left: 24px; padding-right: 24px; }
+.page.page .sec-title { font-size: 30px; }
+.page.page .sec-sub, .page.page .rsvp-text { font-size: 15px; }
+.page.page .letter { padding: 0; background: transparent; border: 0; box-shadow: 0 10px 24px #71331c15; }
+.page.page .letter::before { display: none; }
+/* 保留原文供辅助阅读，视觉使用已确认的书法画稿。 */
+.letter > :not(.marriage-art) { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip-path: inset(50%); white-space: nowrap; }
+.marriage-art { display: block; width: 100%; height: auto; }
+.cover .cover-bg { background: #842127 url('../assets/art/cover-red-paper.webp') center / 100% 100% no-repeat; }
+.cover .cover-bg::before { display: none; }

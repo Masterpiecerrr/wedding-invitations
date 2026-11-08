@@ -192,14 +192,14 @@ export function weddingPlugin(): Plugin {
     const fonts = { brush: '', song: '' };
     if (isBuild) {
       const text = collectText();
-      for (const [key, file] of [['brush', 'MaShanZheng-Regular.ttf'], ['song', 'NotoSerifSC-Regular-GB.ttf']] as const) {
+      for (const [key, file] of [['brush', 'MaShanZheng-Regular.ttf'], ['song', 'Kai-Regular.ttf']] as const) {
         const buf = await subsetFont(fs.readFileSync(path.join(FONT_DIR, file)), text, { targetFormat: 'woff2' });
         fonts[key] = add(`fonts/${key}-${hash(buf)}.woff2`, buf, 'font/woff2');
       }
     } else {
       // 开发预览直接用完整字体，改文字不用重启
       fonts.brush = add('fonts/brush.ttf', fs.readFileSync(path.join(FONT_DIR, 'MaShanZheng-Regular.ttf')), 'font/ttf');
-      fonts.song = add('fonts/song.ttf', fs.readFileSync(path.join(FONT_DIR, 'NotoSerifSC-Regular-GB.ttf')), 'font/ttf');
+      fonts.song = add('fonts/song.ttf', fs.readFileSync(path.join(FONT_DIR, 'Kai-Regular.ttf')), 'font/ttf');
     }
 
     manifest = { photos, music, lunar: 配置.婚礼.农历?.trim() || 推算农历(配置.婚礼.日期), fonts };
