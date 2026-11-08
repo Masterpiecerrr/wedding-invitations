@@ -15,6 +15,6 @@ body { background-color: #e8d4c8; }
 .marriage-art { display: block; width: 100%; height: auto; }
 .cover .cover-bg { background: #842127 url('../assets/art/cover-red-paper.webp') center / 100% 100% no-repeat; }
 .cover .cover-bg::before { display: none; }
-/* 年份与吉时使用毛笔数字，避免楷体中的西文数字显得突兀。 */
-.page.page .cal-head > span { font-family: 'WBrush', var(--song) !important; font-size: 17px; font-weight: 400; letter-spacing: .08em; }
-.page.page .times dd { font-family: 'WBrush', var(--song) !important; font-size: 25px; font-weight: 400; line-height: 1.7; letter-spacing: .03em; }
+/* 年份与吉时的数字：与全站楷体一致，字重、字距按楷体数字调过，避免西文数字突兀。 */
+.page.page .cal-head > span { font-family: var(--song) !important; font-size: 19px; font-weight: 400; letter-spacing: .16em; color: var(--ink-soft); }
+.page.page .times dd { font-family: var(--song) !important; font-size: 27px; font-weight: 400; line-height: 1.7; letter-spacing: .12em; }
