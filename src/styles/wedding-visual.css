@@ -5,7 +5,7 @@ body { background-color: #e8d4c8; }
 .page.page { background: #f8eae0; }
 .page.page .hero { background: radial-gradient(ellipse at 50% 12%, #f9e2d3, transparent 70%), linear-gradient(#fbf0e5, #f8eae0); }
 .page.page .letter-sec, .page.page .story { background: transparent; }
-.page.page .letter-sec { padding-left: 24px; padding-right: 24px; }
+.page.page .letter-sec { padding: 64px 30px 40px; }
 .page.page .sec-title { font-size: 30px; }
 .page.page .sec-sub, .page.page .rsvp-text { font-size: 15px; }
 .page.page .letter { padding: 0; background: transparent; border: 0; box-shadow: 0 10px 24px #71331c15; }

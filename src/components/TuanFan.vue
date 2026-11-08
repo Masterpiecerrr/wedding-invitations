@@ -44,8 +44,8 @@ const id = useId();
 
 <style scoped>
 .tuan { position: relative; display: block; width: var(--face); height: calc(var(--face) * 1.56); }
-.tuan-face { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: var(--face); aspect-ratio: 1; border-radius: 50%; background: #f5eddb url('../assets/art/round-silk.webp') center / cover no-repeat; box-shadow: 0 0 0 2px #d9b778, 0 0 0 5px #831f24, 0 0 0 6px #dec08a66, 0 16px 34px #2a0508a6; }
-.tuan-face::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; border: 1px solid #c9a46340; pointer-events: none; }
+.tuan-face { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: var(--face); aspect-ratio: 1; border-radius: 0; background: transparent url('../assets/art/fan-peony-swallows.webp') center / contain no-repeat; filter: drop-shadow(0 10px 12px #2a050855); }
+
 .tuan-handle { position: absolute; left: 50%; top: calc(var(--face) - 4px); width: calc(var(--face) * .19); transform: translateX(-50%); overflow: visible; }
 .tuan-tassel { transform-origin: 30px 91px; transform-box: view-box; animation: tassel 2.8s ease-in-out infinite; }
 @keyframes tassel { 0%, 100% { transform: rotate(5deg); } 50% { transform: rotate(-4deg); } }

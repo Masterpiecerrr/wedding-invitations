@@ -3,6 +3,7 @@ import { 配置, 日期, 取照片, 看位置 } from '@/lib/wedding';
 import PhotoFrame from './PhotoFrame.vue';
 import NameText from './NameText.vue';
 import marriageArt from '@/assets/art/marriage-letter.webp';
+import MarriageScroll from './MarriageScroll.vue';
 
 defineEmits<{ preview: [src: string] }>();
 const pic = 取照片(配置.婚书.配图, '婚书.配图');
@@ -11,6 +12,7 @@ const seal = Array.from(配置.婚书.印章.trim());
 
 <template>
   <section class="sec paper letter-sec" aria-labelledby="letter-title">
+    <MarriageScroll>
     <article class="letter">
       <img class="marriage-art" :src="marriageArt" alt="婚書。新郎石天宇，新娘禹露。二〇二六年十二月二十日。" width="964" height="1632" />
       <h2 id="letter-title" class="letter-title">{{ 配置.婚书.标题 }}</h2>
@@ -24,6 +26,7 @@ const seal = Array.from(配置.婚书.印章.trim());
         <span v-if="seal.length" class="seal" :data-count="seal.length" aria-hidden="true"><b v-for="(c, i) in seal" :key="i">{{ c }}</b></span>
       </footer>
     </article>
+    </MarriageScroll>
     <PhotoFrame v-if="pic.文件 || 看位置" class="letter-pic" :photo="pic" :alt="`${配置.新人.新郎}与${配置.新人.新娘}`" previewable @preview="$emit('preview', pic.src)" />
   </section>
 </template>
