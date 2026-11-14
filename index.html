@@ -26,8 +26,8 @@
     <meta name="twitter:image" content="__SITE__/share-cover.jpg" />
   </head>
   <body>
-    <!-- 微信转发卡片的缩略图：微信会取正文第一张图 -->
-    <div style="display:none"><img src="__SITE__/share-cover.jpg" alt="__IMAGE_ALT__" width="300" height="300" /></div>
+    <!-- 微信转发/朋友圈的缩略图：微信会取正文里第一张够大的图。不能用 display:none（新版微信会忽略），所以真实渲染一张 400px 的图再移出屏幕 -->
+    <div aria-hidden="true" style="position:absolute;left:-9999px;top:0;width:400px;height:400px;overflow:hidden;opacity:.01;pointer-events:none"><img src="__SITE__/share-cover.jpg" alt="" width="400" height="400" style="display:block;width:400px;height:400px" /></div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
